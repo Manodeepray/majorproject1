@@ -1,0 +1,10 @@
+llama-cpp-python
+torch
+transformers
+fastapi
+huggingface-hub
+groq
+hnswlib
+faiss-cpu
+sentence-transformers
+kg-gen
