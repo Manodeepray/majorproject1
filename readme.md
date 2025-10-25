@@ -1,4 +1,33 @@
 
+use python >3.10
+
+### RUN
+
+in sequence
+
+terminal1
+
+```bash
+python3 -m uvicorn src.InferenceServer:app --host 0.0.0.0 --port 8000 --reload
+```
+
+terminal2
+
+```bash
+python3 -m uvicorn src.server:app --host 0.0.0.0 --port 8001 --reload
+```
+
+terminal3
+
+```bash
+python3 -m test
+```
+
+
+=====================================================================================
+
+
+
 ---done---
 
 
@@ -38,6 +67,7 @@
 
 
 =========================================================================================
+
 
 
 ---todo---
