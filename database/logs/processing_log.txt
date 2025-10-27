@@ -1,18 +1,22 @@
-[2025-10-23T18:38:44.005794] 
+[2025-10-27T19:46:05.635737] 
 [92m[SUCCESS][0m Processed and moved NoteGPT_Justice_ What'sTheRightThingToDo_Episode01_THE MORAL SIDE OF MURDER_.txt to data warehouse.
-[2025-10-23T18:38:44.006067] 
+[2025-10-27T19:46:05.636550] 
 [92m[SUCCESS][0m Processed and moved NoteGPT_Last Lecture Series_ How to Live your Life at Full Power — Graham Weaver.txt to data warehouse.
-[2025-10-23T18:38:44.006211] 
+[2025-10-27T19:46:05.636834] 
 [92m[SUCCESS][0m Processed and moved ml_intro.txt to data warehouse.
-[2025-10-23T18:38:44.006409] 
+[2025-10-27T19:46:05.637738] 
 [92m[SUCCESS][0m Processed and moved NoteGPT_Justice_ What'sTheRightThingToDo_Episode01_THE MORAL SIDE OF MURDER_ (1).txt to data warehouse.
-[2025-10-23T18:38:44.006686] 
+[2025-10-27T19:46:05.638331] 
 [92m[SUCCESS][0m Processed and moved NoteGPT_Optimal Protocols for Studying & Learning.txt to data warehouse.
-[2025-10-23T18:39:09.835820] 
+[2025-10-27T19:46:26.879994] 
 [92m[SUCCESS][0m Processed and moved Hausman_PhilosophyOfEconomicsAnthology.pdf to data warehouse.
-[2025-10-23T18:39:09.836502] 
+[2025-10-27T19:46:26.884121] 
 [92m[SUCCESS][0m Processed and moved NoteGPT_The Trillion Dollar Equation.txt to data warehouse.
-[2025-10-23T18:39:09.836819] 
+[2025-10-27T19:46:26.884707] 
 [92m[SUCCESS][0m Processed and moved NoteGPT_Take a Seat in the Harvard MBA Case Classroom.txt to data warehouse.
-[2025-10-23T18:39:12.652298] 
+[2025-10-27T19:46:29.292751] 
 [92m[SUCCESS][0m Processed and moved 6372215474167643589th hsitory FILE.pdf to data warehouse.
+[2025-10-27T19:46:29.293365] 
+[92m[SUCCESS][0m Processed and moved test_document.txt to data warehouse.
+[2025-10-27T20:37:19.978006] 
+[92m[SUCCESS][0m Processed and moved children-12-01078.pdf to data warehouse.

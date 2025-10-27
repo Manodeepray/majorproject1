@@ -14,6 +14,8 @@ sys.path.append(str(project_root))
 
 from src.DataCollectionPipe import run_pipe
 from src.retrieverPipeline import load_logs, load_vector_store, retrieve_chunks
+from src.knowledgeGraphPipeline import createDatabaseKnowledgeGraph
+from src.promptAgent import MultiTurnAgent
 
 # --- Configuration ---
 # Directories
@@ -172,7 +174,7 @@ async def upload_files(
 
     # Run the pipeline in the background
     background_tasks.add_task(run_data_pipeline)
-
+    # background_tasks.add_task(createDatabaseKnowledgeGraph)
     return {
         "message": f"Files {saved_files} uploaded successfully. Processing started in the background.",
         "detail": "The data ingestion and indexing pipeline is running. You can query the data once it's complete."
@@ -199,9 +201,9 @@ async def query_knowledge_base(
 ):
     """
     Queries the document base by:
-    1. Retrieving relevant document chunks from the vector store.
-    2. Passing the chunks as context to an LLM via the inference server.
-    3. Returning the LLM's answer.
+    1. Breaking down the query into sub-queries.
+    2. Retrieving and summarizing context for each sub-query.
+    3. Generating a final answer based on the collected information.
     """
     if app.state.index is None or app.state.ids is None:
         raise HTTPException(
@@ -210,42 +212,20 @@ async def query_knowledge_base(
         )
 
     try:
-        # 1. Retrieve relevant chunks
-        print(f"Retrieving chunks for query: '{request.query}'")
-        retrieved_data = retrieve_chunks(
-            query=request.query,
+        agent = MultiTurnAgent(
             index=app.state.index,
             ids=app.state.ids,
             vector_log=app.state.vector_log,
             chunk_traces=app.state.chunk_traces,
-            store_type=app.state.store_type,
-            top_k=request.top_k
+            store_type=app.state.store_type
         )
         
-        if not retrieved_data:
+        result = await agent.run(query=request.query, top_k=request.top_k)
+        
+        if not result["context"]:
             raise HTTPException(status_code=404, detail="No relevant documents found for your query.")
 
-        context = [item['chunk_text'] for item in retrieved_data]
-        context_str = "\n\n---\n\n".join(context)
-
-        # 2. Call inference server
-        print("Calling inference server...")
-        payload = {
-            "query": request.query,
-            "context": context_str,
-            "model":  "large"
-        }
-        
-        async with httpx.AsyncClient(timeout=120.0) as client:
-            response = await client.post(INFERENCE_SERVER_URL, json=payload)
-            response.raise_for_status()
-            inference_result = response.json()
-
-        # 3. Return the result
-        return {
-            "answer": inference_result.get("result", "No answer found."),
-            "context": context
-        }
+        return result
 
     except httpx.RequestError as e:
         raise HTTPException(status_code=500, detail=f"Could not connect to inference server: {e}")

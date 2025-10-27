@@ -1,0 +1,265 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1>Context Knowledge Graph</h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1>Context Knowledge Graph</h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 800px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 100%;
+                 height: 800px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+             #config {
+                 float: left;
+                 width: 400px;
+                 height: 600px;
+             }
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+            <div id="config"></div>
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "id": "children with asd", "label": "children with asd", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "nonverbal cues", "label": "nonverbal cues", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "exaggerated emotional responses", "label": "exaggerated emotional responses", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "facial expressions", "label": "facial expressions", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "interpersonal dynamics", "label": "interpersonal dynamics", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "media engagement patterns", "label": "media engagement patterns", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "gender", "label": "gender", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "effectiveness of media engagement", "label": "effectiveness of media engagement", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "early development", "label": "early development", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "overreliance on media", "label": "overreliance on media", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "interpersonal skills", "label": "interpersonal skills", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "anxiety", "label": "anxiety", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "themes (within anime)", "label": "themes (within anime)", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "neurodivergent individuals", "label": "neurodivergent individuals", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "recommendations", "label": "recommendations", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "boys with asd", "label": "boys with asd", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "gender-specific effects", "label": "gender-specific effects", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "emotions", "label": "emotions", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "emotional value (of animated content)", "label": "emotional value (of animated content)", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "cognitive value (of animated content)", "label": "cognitive value (of animated content)", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "drawbacks (of anime)", "label": "drawbacks (of anime)", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "acknowledged", "label": "acknowledged", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "managed thoughtfully", "label": "managed thoughtfully", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "parents", "label": "parents", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "professionals", "label": "professionals", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "reviewed studies", "label": "reviewed studies", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "methodological limitations", "label": "methodological limitations", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "real-world engagement", "label": "real-world engagement", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "highly expressive visual language", "label": "highly expressive visual language", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "substantial popularity", "label": "substantial popularity", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "conclusions about anime\u0027s appeal", "label": "conclusions about anime\u0027s appeal", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "observational data", "label": "observational data", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "qualitative data", "label": "qualitative data", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "cautious interpretation", "label": "cautious interpretation", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "self-reported data", "label": "self-reported data", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "drawing", "label": "drawing", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "anime-related activities", "label": "anime-related activities", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "diagnostic frameworks", "label": "diagnostic frameworks", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "female autistic phenotype", "label": "female autistic phenotype", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "cultural depth", "label": "cultural depth", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "analytical thinking", "label": "analytical thinking", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "language skills", "label": "language skills", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "creativity", "label": "creativity", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "excessive screen time", "label": "excessive screen time", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "increased social withdrawal", "label": "increased social withdrawal", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "reduced real-life social interaction", "label": "reduced real-life social interaction", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Japanese anime", "label": "Japanese anime", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "mediated cultural forms", "label": "mediated cultural forms", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "autism", "label": "autism", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "dominant diagnostic frameworks", "label": "dominant diagnostic frameworks", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "male-centric presentations of autism", "label": "male-centric presentations of autism", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "role of anime", "label": "role of anime", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "multi-faceted", "label": "multi-faceted", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "complex", "label": "complex", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "balanced and mindful approach (to anime consumption)", "label": "balanced and mindful approach (to anime consumption)", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "positive aspects (of anime)", "label": "positive aspects (of anime)", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "guidance", "label": "guidance", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "emotionally saturated narratives", "label": "emotionally saturated narratives", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "stimuli (e.g., cartoons)", "label": "stimuli (e.g., cartoons)", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "cartoons", "label": "cartoons", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "over-reliance on anime-based interactions", "label": "over-reliance on anime-based interactions", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "social withdrawal", "label": "social withdrawal", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "real-world skills", "label": "real-world skills", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "implications of anime consumption", "label": "implications of anime consumption", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "subject of debate", "label": "subject of debate", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "emotion recognition", "label": "emotion recognition", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "individuals with asd", "label": "individuals with asd", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "individual needs", "label": "individual needs", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "appeal of anime", "label": "appeal of anime", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "character-driven narratives", "label": "character-driven narratives", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "structured yet exaggerated social interactions", "label": "structured yet exaggerated social interactions", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "visually rich storytelling", "label": "visually rich storytelling", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "challenges (of anime engagement)", "label": "challenges (of anime engagement)", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "anime engagement", "label": "anime engagement", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "people with more severe asd traits", "label": "people with more severe asd traits", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "collaborative approach", "label": "collaborative approach", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "anime consumption", "label": "anime consumption", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "psychology", "label": "psychology", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "media studies", "label": "media studies", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "education", "label": "education", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "genres (within anime)", "label": "genres (within anime)", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "positive parent-child interactions", "label": "positive parent-child interactions", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "review", "label": "review", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "potential benefits (of anime)", "label": "potential benefits (of anime)", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "social dimensions", "label": "social dimensions", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "cognitive dimensions", "label": "cognitive dimensions", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "effect of anime", "label": "effect of anime", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "emotional dimensions", "label": "emotional dimensions", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "small sample sizes", "label": "small sample sizes", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "longitudinal follow-up", "label": "longitudinal follow-up", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "cross-sectional designs", "label": "cross-sectional designs", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "unique narrative structures", "label": "unique narrative structures", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "children and adolescents", "label": "children and adolescents", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "animated content", "label": "animated content", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "emotional skills", "label": "emotional skills", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "social cognition", "label": "social cognition", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "sense of belonging", "label": "sense of belonging", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "identity formation", "label": "identity formation", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "therapeutic settings", "label": "therapeutic settings", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "therapeutic tool", "label": "therapeutic tool", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "structured intervention programs", "label": "structured intervention programs", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "cognitive development", "label": "cognitive development", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "girls with asd", "label": "girls with asd", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "emotional development", "label": "emotional development", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "evident", "label": "evident", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "symbolic depth", "label": "symbolic depth", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "predictable emotional cues", "label": "predictable emotional cues", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "richly layered world-building", "label": "richly layered world-building", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "research approaches", "label": "research approaches", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "diverse experiences", "label": "diverse experiences", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "gendered differences", "label": "gendered differences", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "individuals on the spectrum", "label": "individuals on the spectrum", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "cosplay", "label": "cosplay", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "complex storylines", "label": "complex storylines", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "aesthetic conventions of anime", "label": "aesthetic conventions of anime", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "anime", "label": "anime", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "social contact", "label": "social contact", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "globally disseminated form of animated storytelling", "label": "globally disseminated form of animated storytelling", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "Japan", "label": "Japan", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "social skill development", "label": "social skill development", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "comforting escape", "label": "comforting escape", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "emotional control", "label": "emotional control", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "communication", "label": "communication", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "consistent character archetypes", "label": "consistent character archetypes", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "facilitator (anime as)", "label": "facilitator (anime as)", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "visual cues", "label": "visual cues", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "anime\u0027s structured narratives", "label": "anime\u0027s structured narratives", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "misinterpretation of emotions", "label": "misinterpretation of emotions", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "common challenges", "label": "common challenges", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "cultural homogeneity", "label": "cultural homogeneity", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "cross-cultural variations", "label": "cross-cultural variations", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "constructive tool", "label": "constructive tool", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "hindrance", "label": "hindrance", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "parental involvement", "label": "parental involvement", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "key moderating factor", "label": "key moderating factor", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "personal growth", "label": "personal growth", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "social growth", "label": "social growth", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "caregivers", "label": "caregivers", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "media use", "label": "media use", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "media interpretation", "label": "media interpretation", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "anime\u0027s capacity", "label": "anime\u0027s capacity", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "animated stimuli", "label": "animated stimuli", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "characters (in anime)", "label": "characters (in anime)", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "self-discovery", "label": "self-discovery", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "confidence", "label": "confidence", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "self-awareness", "label": "self-awareness", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "resilience", "label": "resilience", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "socially normative themes", "label": "socially normative themes", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "growth of social skills", "label": "growth of social skills", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "leisure", "label": "leisure", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "relationally focused themes", "label": "relationally focused themes", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "entertainment", "label": "entertainment", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "means of expressing oneself", "label": "means of expressing oneself", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "balanced and mindful engagement (with anime)", "label": "balanced and mindful engagement (with anime)", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "potential risks (of anime)", "label": "potential risks (of anime)", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "overconsumption of media", "label": "overconsumption of media", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "writing", "label": "writing", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "complex interaction", "label": "complex interaction", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "emotional factors", "label": "emotional factors", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "social factors", "label": "social factors", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "cognitive factors", "label": "cognitive factors", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "special interests", "label": "special interests", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "anime narratives", "label": "anime narratives", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "mental health perceptions", "label": "mental health perceptions", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "children with autism spectrum disorder (asd)", "label": "children with autism spectrum disorder (asd)", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "over-reliance on fictitious relationships", "label": "over-reliance on fictitious relationships", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "real-world coping methods", "label": "real-world coping methods", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "false expectations for social interactions", "label": "false expectations for social interactions", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "response to emotional signaling", "label": "response to emotional signaling", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "exaggerated expressions", "label": "exaggerated expressions", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "long-term effects", "label": "long-term effects", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "emotional regulation", "label": "emotional regulation", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "identity development", "label": "identity development", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "anime\u0027s appeal", "label": "anime\u0027s appeal", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "ability of anime", "label": "ability of anime", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "main advantages (of anime)", "label": "main advantages (of anime)", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "media influences", "label": "media influences", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "cognitive perspective", "label": "cognitive perspective", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "anime fandom communities", "label": "anime fandom communities", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "development", "label": "development", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "emotional signaling", "label": "emotional signaling", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "social competencies", "label": "social competencies", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "developmental perspective", "label": "developmental perspective", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "psychological well-being", "label": "psychological well-being", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "samples", "label": "samples", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "gendered lens", "label": "gendered lens", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "researchers", "label": "researchers", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "studies", "label": "studies", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "promising insights", "label": "promising insights", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "intersection of autism", "label": "intersection of autism", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "fictitious relationships", "label": "fictitious relationships", "shape": "dot", "size": 10}, {"color": "#97c2fc", "id": "autism spectrum disorder (asd)", "label": "autism spectrum disorder (asd)", "shape": "dot", "size": 10}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "children with asd", "label": "struggle with decoding", "to": "nonverbal cues", "width": 1}, {"arrows": "to", "from": "exaggerated emotional responses", "label": "help girls with asd understand", "to": "facial expressions", "width": 1}, {"arrows": "to", "from": "exaggerated emotional responses", "label": "help girls with asd understand", "to": "interpersonal dynamics", "width": 1}, {"arrows": "to", "from": "media engagement patterns", "label": "may vary by", "to": "gender", "width": 1}, {"arrows": "to", "from": "effectiveness of media engagement", "label": "is particularly in", "to": "early development", "width": 1}, {"arrows": "to", "from": "overreliance on media", "label": "may interfere with", "to": "interpersonal skills", "width": 1}, {"arrows": "to", "from": "overreliance on media", "label": "may contribute to", "to": "anxiety", "width": 1}, {"arrows": "to", "from": "themes (within anime)", "label": "impact", "to": "neurodivergent individuals", "width": 1}, {"arrows": "to", "from": "themes (within anime)", "label": "can provide", "to": "recommendations", "width": 1}, {"arrows": "to", "from": "boys with asd", "label": "may experience", "to": "gender-specific effects", "width": 1}, {"arrows": "to", "from": "boys with asd", "label": "decode", "to": "emotions", "width": 1}, {"arrows": "to", "from": "boys with asd", "label": "benefit from", "to": "emotional value (of animated content)", "width": 1}, {"arrows": "to", "from": "boys with asd", "label": "benefit from", "to": "cognitive value (of animated content)", "width": 1}, {"arrows": "to", "from": "drawbacks (of anime)", "label": "must be", "to": "acknowledged", "width": 1}, {"arrows": "to", "from": "drawbacks (of anime)", "label": "must be", "to": "managed thoughtfully", "width": 1}, {"arrows": "to", "from": "recommendations", "label": "are for", "to": "parents", "width": 1}, {"arrows": "to", "from": "recommendations", "label": "are for", "to": "professionals", "width": 1}, {"arrows": "to", "from": "reviewed studies", "label": "suffer from", "to": "methodological limitations", "width": 1}, {"arrows": "to", "from": "anxiety", "label": "is in the absence of", "to": "real-world engagement", "width": 1}, {"arrows": "to", "from": "highly expressive visual language", "label": "contributes to", "to": "substantial popularity", "width": 1}, {"arrows": "to", "from": "conclusions about anime\u0027s appeal", "label": "are derived from", "to": "observational data", "width": 1}, {"arrows": "to", "from": "conclusions about anime\u0027s appeal", "label": "are derived from", "to": "qualitative data", "width": 1}, {"arrows": "to", "from": "conclusions about anime\u0027s appeal", "label": "necessitate", "to": "cautious interpretation", "width": 1}, {"arrows": "to", "from": "conclusions about anime\u0027s appeal", "label": "are derived from", "to": "self-reported data", "width": 1}, {"arrows": "to", "from": "drawing", "label": "is an example of", "to": "anime-related activities", "width": 1}, {"arrows": "to", "from": "diagnostic frameworks", "label": "have misunderstood", "to": "female autistic phenotype", "width": 1}, {"arrows": "to", "from": "cultural depth", "label": "enhances", "to": "analytical thinking", "width": 1}, {"arrows": "to", "from": "cultural depth", "label": "enhances", "to": "language skills", "width": 1}, {"arrows": "to", "from": "cultural depth", "label": "enhances", "to": "creativity", "width": 1}, {"arrows": "to", "from": "excessive screen time", "label": "is among", "to": "boys with asd", "width": 1}, {"arrows": "to", "from": "excessive screen time", "label": "may lead to", "to": "increased social withdrawal", "width": 1}, {"arrows": "to", "from": "excessive screen time", "label": "may lead to", "to": "reduced real-life social interaction", "width": 1}, {"arrows": "to", "from": "Japanese anime", "label": "is the intersection of", "to": "mediated cultural forms", "width": 1}, {"arrows": "to", "from": "Japanese anime", "label": "is the intersection of", "to": "autism", "width": 1}, {"arrows": "to", "from": "dominant diagnostic frameworks", "label": "have been attributed on", "to": "male-centric presentations of autism", "width": 1}, {"arrows": "to", "from": "role of anime", "label": "is in the lives of", "to": "children with asd", "width": 1}, {"arrows": "to", "from": "role of anime", "label": "is", "to": "multi-faceted", "width": 1}, {"arrows": "to", "from": "role of anime", "label": "is", "to": "complex", "width": 1}, {"arrows": "to", "from": "balanced and mindful approach (to anime consumption)", "label": "can maximize", "to": "positive aspects (of anime)", "width": 1}, {"arrows": "to", "from": "balanced and mindful approach (to anime consumption)", "label": "should include", "to": "guidance", "width": 1}, {"arrows": "to", "from": "emotionally saturated narratives", "label": "contributes to", "to": "substantial popularity", "width": 1}, {"arrows": "to", "from": "stimuli (e.g., cartoons)", "label": "includes", "to": "cartoons", "width": 1}, {"arrows": "to", "from": "over-reliance on anime-based interactions", "label": "may lead to", "to": "social withdrawal", "width": 1}, {"arrows": "to", "from": "over-reliance on anime-based interactions", "label": "does not foster", "to": "real-world skills", "width": 1}, {"arrows": "to", "from": "implications of anime consumption", "label": "on development remain a", "to": "subject of debate", "width": 1}, {"arrows": "to", "from": "emotion recognition", "label": "is for", "to": "individuals with asd", "width": 1}, {"arrows": "to", "from": "guidance", "label": "is tailored to", "to": "individual needs", "width": 1}, {"arrows": "to", "from": "appeal of anime", "label": "may derive from", "to": "character-driven narratives", "width": 1}, {"arrows": "to", "from": "appeal of anime", "label": "is for", "to": "children with asd", "width": 1}, {"arrows": "to", "from": "appeal of anime", "label": "may derive from", "to": "structured yet exaggerated social interactions", "width": 1}, {"arrows": "to", "from": "appeal of anime", "label": "may derive from", "to": "visually rich storytelling", "width": 1}, {"arrows": "to", "from": "challenges (of anime engagement)", "label": "are associated with", "to": "anime engagement", "width": 1}, {"arrows": "to", "from": "people with more severe asd traits", "label": "have difficulty identifying", "to": "emotions", "width": 1}, {"arrows": "to", "from": "collaborative approach", "label": "is necessary to understand", "to": "anime consumption", "width": 1}, {"arrows": "to", "from": "collaborative approach", "label": "incorporates insights from", "to": "psychology", "width": 1}, {"arrows": "to", "from": "collaborative approach", "label": "incorporates insights from", "to": "media studies", "width": 1}, {"arrows": "to", "from": "collaborative approach", "label": "incorporates insights from", "to": "education", "width": 1}, {"arrows": "to", "from": "genres (within anime)", "label": "impact", "to": "neurodivergent individuals", "width": 1}, {"arrows": "to", "from": "genres (within anime)", "label": "can provide", "to": "recommendations", "width": 1}, {"arrows": "to", "from": "positive parent-child interactions", "label": "can enhance", "to": "effectiveness of media engagement", "width": 1}, {"arrows": "to", "from": "review", "label": "examines", "to": "potential benefits (of anime)", "width": 1}, {"arrows": "to", "from": "review", "label": "emphasizes", "to": "social dimensions", "width": 1}, {"arrows": "to", "from": "review", "label": "emphasizes", "to": "cognitive dimensions", "width": 1}, {"arrows": "to", "from": "review", "label": "examines", "to": "challenges (of anime engagement)", "width": 1}, {"arrows": "to", "from": "review", "label": "highlights", "to": "effect of anime", "width": 1}, {"arrows": "to", "from": "review", "label": "emphasizes", "to": "emotional dimensions", "width": 1}, {"arrows": "to", "from": "methodological limitations", "label": "include", "to": "small sample sizes", "width": 1}, {"arrows": "to", "from": "methodological limitations", "label": "include a lack of", "to": "longitudinal follow-up", "width": 1}, {"arrows": "to", "from": "methodological limitations", "label": "include", "to": "cross-sectional designs", "width": 1}, {"arrows": "to", "from": "unique narrative structures", "label": "resonate with", "to": "children and adolescents", "width": 1}, {"arrows": "to", "from": "animated content", "label": "aids in improving", "to": "emotional skills", "width": 1}, {"arrows": "to", "from": "animated content", "label": "aids in improving", "to": "social cognition", "width": 1}, {"arrows": "to", "from": "animated content", "label": "promotes a", "to": "sense of belonging", "width": 1}, {"arrows": "to", "from": "animated content", "label": "can offer", "to": "cognitive value (of animated content)", "width": 1}, {"arrows": "to", "from": "animated content", "label": "can offer", "to": "emotional value (of animated content)", "width": 1}, {"arrows": "to", "from": "animated content", "label": "promotes", "to": "identity formation", "width": 1}, {"arrows": "to", "from": "animated content", "label": "has shown promise in", "to": "therapeutic settings", "width": 1}, {"arrows": "to", "from": "therapeutic tool", "label": "is used in", "to": "structured intervention programs", "width": 1}, {"arrows": "to", "from": "anime consumption", "label": "influences", "to": "cognitive development", "width": 1}, {"arrows": "to", "from": "anime consumption", "label": "has long-term effects on", "to": "boys with asd", "width": 1}, {"arrows": "to", "from": "anime consumption", "label": "has long-term effects on", "to": "girls with asd", "width": 1}, {"arrows": "to", "from": "anime consumption", "label": "influences", "to": "emotional development", "width": 1}, {"arrows": "to", "from": "potential benefits (of anime)", "label": "are", "to": "evident", "width": 1}, {"arrows": "to", "from": "potential benefits (of anime)", "label": "are associated with", "to": "anime engagement", "width": 1}, {"arrows": "to", "from": "children and adolescents", "label": "are drawn to", "to": "symbolic depth", "width": 1}, {"arrows": "to", "from": "children and adolescents", "label": "are drawn to", "to": "predictable emotional cues", "width": 1}, {"arrows": "to", "from": "children and adolescents", "label": "are drawn to", "to": "richly layered world-building", "width": 1}, {"arrows": "to", "from": "substantial popularity", "label": "is among", "to": "neurodivergent individuals", "width": 1}, {"arrows": "to", "from": "research approaches", "label": "help understand", "to": "diverse experiences", "width": 1}, {"arrows": "to", "from": "research approaches", "label": "should account for", "to": "gendered differences", "width": 1}, {"arrows": "to", "from": "structured intervention programs", "label": "are for", "to": "individuals on the spectrum", "width": 1}, {"arrows": "to", "from": "cosplay", "label": "is an example of", "to": "anime-related activities", "width": 1}, {"arrows": "to", "from": "complex storylines", "label": "enhance", "to": "creativity", "width": 1}, {"arrows": "to", "from": "complex storylines", "label": "enhance", "to": "analytical thinking", "width": 1}, {"arrows": "to", "from": "complex storylines", "label": "enhance", "to": "language skills", "width": 1}, {"arrows": "to", "from": "aesthetic conventions of anime", "label": "resonate with", "to": "children and adolescents", "width": 1}, {"arrows": "to", "from": "anime", "label": "has", "to": "highly expressive visual language", "width": 1}, {"arrows": "to", "from": "anime", "label": "offers", "to": "cultural depth", "width": 1}, {"arrows": "to", "from": "anime", "label": "contributes to", "to": "identity formation", "width": 1}, {"arrows": "to", "from": "anime", "label": "promotes", "to": "social contact", "width": 1}, {"arrows": "to", "from": "anime", "label": "has garnered", "to": "substantial popularity", "width": 1}, {"arrows": "to", "from": "anime", "label": "is a", "to": "globally disseminated form of animated storytelling", "width": 1}, {"arrows": "to", "from": "anime", "label": "originates from", "to": "Japan", "width": 1}, {"arrows": "to", "from": "anime", "label": "could support", "to": "social skill development", "width": 1}, {"arrows": "to", "from": "anime", "label": "can serve as a", "to": "comforting escape", "width": 1}, {"arrows": "to", "from": "anime", "label": "is a", "to": "therapeutic tool", "width": 1}, {"arrows": "to", "from": "anime", "label": "offers", "to": "complex storylines", "width": 1}, {"arrows": "to", "from": "anime", "label": "contributes to", "to": "emotional control", "width": 1}, {"arrows": "to", "from": "anime", "label": "has", "to": "emotionally saturated narratives", "width": 1}, {"arrows": "to", "from": "anime", "label": "promotes", "to": "communication", "width": 1}, {"arrows": "to", "from": "anime", "label": "has", "to": "consistent character archetypes", "width": 1}, {"arrows": "to", "from": "anime", "label": "could support", "to": "emotion recognition", "width": 1}, {"arrows": "to", "from": "anime", "label": "may act as a", "to": "facilitator (anime as)", "width": 1}, {"arrows": "to", "from": "visual cues", "label": "help boys with asd decode", "to": "emotions", "width": 1}, {"arrows": "to", "from": "anime\u0027s structured narratives", "label": "help girls with asd understand", "to": "interpersonal dynamics", "width": 1}, {"arrows": "to", "from": "anime\u0027s structured narratives", "label": "help girls with asd understand", "to": "facial expressions", "width": 1}, {"arrows": "to", "from": "misinterpretation of emotions", "label": "is a", "to": "common challenges", "width": 1}, {"arrows": "to", "from": "cultural homogeneity", "label": "may obscure", "to": "cross-cultural variations", "width": 1}, {"arrows": "to", "from": "anime engagement", "label": "can serve as a", "to": "constructive tool", "width": 1}, {"arrows": "to", "from": "anime engagement", "label": "can serve as a", "to": "hindrance", "width": 1}, {"arrows": "to", "from": "anime engagement", "label": "is among", "to": "children with asd", "width": 1}, {"arrows": "to", "from": "parental involvement", "label": "appears to be a", "to": "key moderating factor", "width": 1}, {"arrows": "to", "from": "hindrance", "label": "to", "to": "personal growth", "width": 1}, {"arrows": "to", "from": "hindrance", "label": "to", "to": "social growth", "width": 1}, {"arrows": "to", "from": "professionals", "label": "can ensure", "to": "anime engagement", "width": 1}, {"arrows": "to", "from": "caregivers", "label": "can ensure", "to": "anime engagement", "width": 1}, {"arrows": "to", "from": "cross-cultural variations", "label": "are in", "to": "media use", "width": 1}, {"arrows": "to", "from": "cross-cultural variations", "label": "are in", "to": "media interpretation", "width": 1}, {"arrows": "to", "from": "anime\u0027s capacity", "label": "is to scaffold", "to": "social cognition", "width": 1}, {"arrows": "to", "from": "animated stimuli", "label": "makes it easier for", "to": "boys with asd", "width": 1}, {"arrows": "to", "from": "social skill development", "label": "is for", "to": "individuals with asd", "width": 1}, {"arrows": "to", "from": "characters (in anime)", "label": "deal with", "to": "self-discovery", "width": 1}, {"arrows": "to", "from": "characters (in anime)", "label": "help increase", "to": "confidence", "width": 1}, {"arrows": "to", "from": "characters (in anime)", "label": "are relatable to", "to": "girls with asd", "width": 1}, {"arrows": "to", "from": "characters (in anime)", "label": "help increase", "to": "self-awareness", "width": 1}, {"arrows": "to", "from": "characters (in anime)", "label": "deal with", "to": "resilience", "width": 1}, {"arrows": "to", "from": "cognitive development", "label": "is in", "to": "neurodivergent individuals", "width": 1}, {"arrows": "to", "from": "identity formation", "label": "is for", "to": "individuals with asd", "width": 1}, {"arrows": "to", "from": "girls with asd", "label": "gravitate toward", "to": "socially normative themes", "width": 1}, {"arrows": "to", "from": "girls with asd", "label": "do not resort to anime for", "to": "growth of social skills", "width": 1}, {"arrows": "to", "from": "girls with asd", "label": "can understand", "to": "facial expressions", "width": 1}, {"arrows": "to", "from": "girls with asd", "label": "benefit from", "to": "cognitive value (of animated content)", "width": 1}, {"arrows": "to", "from": "girls with asd", "label": "resort to anime for", "to": "leisure", "width": 1}, {"arrows": "to", "from": "girls with asd", "label": "may experience", "to": "gender-specific effects", "width": 1}, {"arrows": "to", "from": "girls with asd", "label": "can understand", "to": "interpersonal dynamics", "width": 1}, {"arrows": "to", "from": "girls with asd", "label": "benefit from", "to": "emotional value (of animated content)", "width": 1}, {"arrows": "to", "from": "girls with asd", "label": "gravitate toward", "to": "relationally focused themes", "width": 1}, {"arrows": "to", "from": "girls with asd", "label": "resort to anime for", "to": "entertainment", "width": 1}, {"arrows": "to", "from": "anime-related activities", "label": "can be", "to": "means of expressing oneself", "width": 1}, {"arrows": "to", "from": "balanced and mindful engagement (with anime)", "label": "can address", "to": "potential risks (of anime)", "width": 1}, {"arrows": "to", "from": "balanced and mindful engagement (with anime)", "label": "can maximize", "to": "positive aspects (of anime)", "width": 1}, {"arrows": "to", "from": "consistent character archetypes", "label": "contributes to", "to": "substantial popularity", "width": 1}, {"arrows": "to", "from": "overconsumption of media", "label": "is a", "to": "common challenges", "width": 1}, {"arrows": "to", "from": "writing", "label": "is an example of", "to": "anime-related activities", "width": 1}, {"arrows": "to", "from": "complex interaction", "label": "involves", "to": "emotional factors", "width": 1}, {"arrows": "to", "from": "complex interaction", "label": "involves", "to": "social factors", "width": 1}, {"arrows": "to", "from": "complex interaction", "label": "involves", "to": "cognitive factors", "width": 1}, {"arrows": "to", "from": "gendered differences", "label": "challenge", "to": "dominant diagnostic frameworks", "width": 1}, {"arrows": "to", "from": "gendered differences", "label": "are in", "to": "special interests", "width": 1}, {"arrows": "to", "from": "emotional development", "label": "is in", "to": "neurodivergent individuals", "width": 1}, {"arrows": "to", "from": "anime narratives", "label": "impact", "to": "mental health perceptions", "width": 1}, {"arrows": "to", "from": "effect of anime", "label": "is on", "to": "children with autism spectrum disorder (asd)", "width": 1}, {"arrows": "to", "from": "effect of anime", "label": "involves", "to": "complex interaction", "width": 1}, {"arrows": "to", "from": "over-reliance on fictitious relationships", "label": "might hinder", "to": "real-world coping methods", "width": 1}, {"arrows": "to", "from": "over-reliance on fictitious relationships", "label": "might create", "to": "false expectations for social interactions", "width": 1}, {"arrows": "to", "from": "response to emotional signaling", "label": "improves with exposure to", "to": "stimuli (e.g., cartoons)", "width": 1}, {"arrows": "to", "from": "exaggerated expressions", "label": "help boys with asd decode", "to": "emotions", "width": 1}, {"arrows": "to", "from": "long-term effects", "label": "relate to", "to": "emotional regulation", "width": 1}, {"arrows": "to", "from": "long-term effects", "label": "relate to", "to": "identity development", "width": 1}, {"arrows": "to", "from": "anime\u0027s appeal", "label": "lies in", "to": "anime\u0027s capacity", "width": 1}, {"arrows": "to", "from": "ability of anime", "label": "is one of its", "to": "main advantages (of anime)", "width": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": true,
+        "filter": [
+            "physics"
+        ]
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+                  // if this network requires displaying the configure window,
+                  // put it in its div
+                  options.configure["container"] = document.getElementById("config");
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

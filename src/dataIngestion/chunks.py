@@ -112,62 +112,65 @@ def process_data_warehouse_with_metadata(DATA_WAREHOUSE_DIR, CLEANED_DIR, CHUNK_
     chunk_status = load_chunk_status(CHUNK_STATUS_FILE)
 
     for file_path in tqdm(DATA_WAREHOUSE_DIR.glob("*.*") , desc="processing..."):
-        print(f"\n{Colors.YELLOW}[LOG]{Colors.RESET} Processing {file_path.name} ...")
-        file_hash = compute_file_hash(file_path)
-        timestamp = datetime.utcnow().isoformat()
+        if file_path.name not in chunk_status:
+            print(f"\n{Colors.YELLOW}[LOG]{Colors.RESET} Processing {file_path.name} ...")
+            file_hash = compute_file_hash(file_path)
+            timestamp = datetime.utcnow().isoformat()
 
-        # Extract text (with page numbers)
-        pages = read_file_content_with_pages(file_path)
-        if not pages:
-            print(f"\n{Colors.RED}[ERROR]  No readable text found in {Colors.RESET}{file_path.name}")
-            continue
+            # Extract text (with page numbers)
+            pages = read_file_content_with_pages(file_path)
+            if not pages:
+                print(f"\n{Colors.RED}[ERROR]  No readable text found in {Colors.RESET}{file_path.name}")
+                continue
 
-        all_chunk_metadata = []
-        cleaned_file = CLEANED_DIR / f"{file_path.stem}_cleaned.txt"
+            all_chunk_metadata = []
+            cleaned_file = CLEANED_DIR / f"{file_path.stem}_cleaned.txt"
 
-        # Process each page
-        with open(cleaned_file, "w", encoding="utf-8") as cf:
-            for page_number, page_text in pages:
-                if not page_text:
-                    continue
+            # Process each page
+            with open(cleaned_file, "w", encoding="utf-8") as cf:
+                for page_number, page_text in pages:
+                    if not page_text:
+                        continue
 
-                cleaned_text = clean_text(page_text)
-                cf.write(cleaned_text + "\n\n")
+                    cleaned_text = clean_text(page_text)
+                    cf.write(cleaned_text + "\n\n")
 
-                # Chunk per page
-                chunks = chunk_text(cleaned_text, chunk_size, overlap)
-                chunk_folder = CHUNK_DIR / file_path.stem
-                chunk_folder.mkdir(parents=True, exist_ok=True)
+                    # Chunk per page
+                    chunks = chunk_text(cleaned_text, chunk_size, overlap)
+                    chunk_folder = CHUNK_DIR / file_path.stem
+                    chunk_folder.mkdir(parents=True, exist_ok=True)
 
-                for i, chunk in enumerate(chunks, start=1):
-                    chunk_file = chunk_folder / f"{file_path.stem}_page{page_number or 0}_chunk_{i}.txt"
-                    with open(chunk_file, "w", encoding="utf-8") as f:
-                        f.write(chunk)
+                    for i, chunk in enumerate(chunks, start=1):
+                        chunk_file = chunk_folder / f"{file_path.stem}_page{page_number or 0}_chunk_{i}.txt"
+                        with open(chunk_file, "w", encoding="utf-8") as f:
+                            f.write(chunk)
 
-                    # Metadata for retrieval / vector DB
-                    all_chunk_metadata.append({
-                        "chunk_id": len(all_chunk_metadata) + 1,
-                        "file_name": file_path.name,
-                        "source": str(file_path.relative_to(BASE_DIR)),
-                        "chunk_file": chunk_file.name,
-                        "chunk_path": str(chunk_file.relative_to(BASE_DIR)),
-                        "page_number": page_number,
-                        "chunk_length": len(chunk.split()),
-                        "hash": file_hash,
-                        "timestamp": timestamp,
-                        "processed": False
-                    })
+                        # Metadata for retrieval / vector DB
+                        all_chunk_metadata.append({
+                            "chunk_id": len(all_chunk_metadata) + 1,
+                            "file_name": file_path.name,
+                            "source": str(file_path.relative_to(BASE_DIR)),
+                            "chunk_file": chunk_file.name,
+                            "chunk_path": str(chunk_file.relative_to(BASE_DIR)),
+                            "page_number": page_number,
+                            "chunk_length": len(chunk.split()),
+                            "hash": file_hash,
+                            "timestamp": timestamp,
+                            "processed": False,
+                            "er_extraction":False,
+                            "vectorized":False,
+                        })
 
-        # Record metadata
-        chunk_status[file_path.name] = {
-            "status": "chunked",
-            "timestamp": timestamp,
-            "hash": file_hash,
-            "chunks": all_chunk_metadata,
-            "status": "pending"
-        }
+            # Record metadata
+            chunk_status[file_path.name] = {
+                "status": "chunked",
+                "timestamp": timestamp,
+                "hash": file_hash,
+                "chunks": all_chunk_metadata,
+                "status": "pending"
+            }
 
-        print(f"{Colors.GREEN}[SUCCESS]{Colors.RESET} {len(all_chunk_metadata)} chunks created with metadata for {file_path.name}")
+            print(f"{Colors.GREEN}[SUCCESS]{Colors.RESET} {len(all_chunk_metadata)} chunks created with metadata for {file_path.name}")
 
     save_chunk_status(chunk_status, CHUNK_STATUS_FILE)
     print(f"\n{Colors.BLUE}[LOG]{Colors.RESET}   Updated chunk_status.json")

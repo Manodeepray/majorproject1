@@ -70,18 +70,19 @@ def test_query():
     """
     # This delay is to give the server time to process the uploaded file.
     # In a real-world scenario, you might poll a status endpoint.
-    processing_time = 30  # seconds
+    processing_time = 5  # seconds
     print(f"\n--- Waiting {processing_time}s for the server to process the document ---")
     time.sleep(processing_time)
     
     print("\n--- Testing /query endpoint ---")
     payload = {
-        "query": "What is Mars known as?",
+        "query": "how does anime effect kids nowadays... tell me from the paper i gave",
         "top_k": 1
     }
     
     try:
-        response = requests.post(QUERY_URL, json=payload, timeout=60)
+        print(f"sending payload{payload}")
+        response = requests.post(QUERY_URL, json=payload, timeout=None)
         
         print(f"Status Code: {response.status_code}")
         print("Response JSON:")
@@ -104,7 +105,7 @@ def test_query():
 # --- Main Execution ---
 if __name__ == "__main__":
     if check_server_status(BASE_URL):
-        test_upload()
+        # test_upload()
         test_query()
     else:
         print("\nExiting tests.")
