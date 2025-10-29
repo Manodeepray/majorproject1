@@ -1,1 +1,0 @@
-somewhat general way, it is often useful to strip it down to its simplest form, and then to see whichassumptions are most closely associated with the derivation of the relevantresult. 17

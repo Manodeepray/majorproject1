@@ -1,1 +1,0 @@
-which differ only in quality . quality is measured in money units and is uniformly distributed over some range. each groupof traders maximizes an aggregate utility function. for group one, utilityis the sum of the qualities of the cars it owns and the monetary value of

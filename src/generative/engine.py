@@ -2,6 +2,8 @@ import json
 from pathlib import Path
 from typing import List, Dict
 import asyncio
+import PyPDF2
+import docx
 from .summarize import summarize_chunk, summarize_final
 from .outline import generate_outline_chunk, combine_outlines
 from .faq import generate_faq_chunk
@@ -26,12 +28,46 @@ def load_json(path):
 def get_document_content(filename: str) -> str:
     """
     Loads the content of a document from the data warehouse.
+    Handles .txt, .pdf, and .docx files.
     """
     file_path = DATA_WAREHOUSE_DIR / filename
-    if file_path.exists():
-        with open(file_path, 'r', encoding='utf-8') as f:
-            return f.read()
-    return ""
+    if not file_path.exists():
+        return ""
+
+    content = ""
+    try:
+        extension = Path(filename).suffix.lower()
+        if extension == '.pdf':
+            with open(file_path, 'rb') as f:
+                reader = PyPDF2.PdfReader(f)
+                for page in reader.pages:
+                    page_text = page.extract_text()
+                    if page_text:
+                        content += page_text
+        elif extension == '.docx':
+            doc = docx.Document(file_path)
+            full_text = []
+            for para in doc.paragraphs:
+                full_text.append(para.text)
+            content = '\n'.join(full_text)
+        elif extension == '.txt':
+            with open(file_path, 'r', encoding='utf-8') as f:
+                content = f.read()
+        # Note: .doc files are not supported by the python-docx library.
+        # An alternative library would be needed for .doc file support.
+        else:
+            # For other file types, try to read as text, but this might fail for binary files.
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    content = f.read()
+            except (UnicodeDecodeError, IOError):
+                print(f"Warning: Could not read {filename} as a text file. Unsupported file type.")
+                return ""
+
+    except Exception as e:
+        print(f"Error reading {filename}: {e}")
+        return ""
+    return content
 
 async def run_summarization(filenames: List[str]) -> List[Dict[str, str]]:
     """
@@ -76,7 +112,9 @@ async def run_outline_generation(filenames: List[str], combine: bool) -> Dict:
     individual_outlines = {}
 
     for filename in filenames:
+        print(file_status[filename])
         if filename not in file_status or file_status[filename].get('status') != 'processed':
+            
             individual_outlines[filename] = "File not found or not processed."
             continue
 
@@ -86,7 +124,7 @@ async def run_outline_generation(filenames: List[str], combine: bool) -> Dict:
             continue
 
         chunks = [content[i:i + CHUNK_SIZE] for i in range(0, len(content), CHUNK_SIZE)]
-        
+        print(f"[PROCESSING] working on {len(chunks)} chunks")
         chunk_outlines = await asyncio.gather(*[generate_outline_chunk(chunk) for chunk in chunks])
         
         if combine:
@@ -110,6 +148,7 @@ async def run_faq_generation(filenames: List[str]) -> List[Dict[str, str]]:
     all_faqs = []
 
     for filename in filenames:
+        print(file_status[filename])
         if filename not in file_status or file_status[filename].get('status') != 'processed':
             continue
 
@@ -118,7 +157,7 @@ async def run_faq_generation(filenames: List[str]) -> List[Dict[str, str]]:
             continue
 
         chunks = [content[i:i + CHUNK_SIZE] for i in range(0, len(content), CHUNK_SIZE)]
-        
+        print(f"[PROCESSING] working on {len(chunks)} chunks")
         chunk_faqs_lists = await asyncio.gather(*[generate_faq_chunk(chunk, filename) for chunk in chunks])
         
         for faq_list in chunk_faqs_lists:
@@ -144,7 +183,7 @@ async def run_quiz_generation(filenames: List[str], question_type: str, count: i
             continue
 
         chunks = [content[i:i + CHUNK_SIZE] for i in range(0, len(content), CHUNK_SIZE)]
-        
+        print(f"[PROCESSING] working on {len(chunks)} chunks")
         # Distribute the count of questions among chunks
         questions_per_chunk = max(1, count // len(chunks))
 

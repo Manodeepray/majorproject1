@@ -1,1 +1,0 @@
-the ball should be gt and should therefore increase steadily. in fact, a ball dropped at 30,000 feetwill reach its top velocity well before it hits the ground. and similarly with other implications of the formula.

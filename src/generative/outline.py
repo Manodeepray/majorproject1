@@ -1,5 +1,6 @@
 import httpx
 from typing import List, Dict
+import asyncio
 
 INFERENCE_SERVER_URL = "http://127.0.0.1:8000/infer"
 
@@ -13,6 +14,7 @@ async def generate_outline_chunk(chunk: str) -> str:
         "context": chunk,
         "model": "large"
     }
+    await asyncio.sleep(2.5)
     async with httpx.AsyncClient(timeout=120.0) as client:
         try:
             response = await client.post(INFERENCE_SERVER_URL, json=payload)

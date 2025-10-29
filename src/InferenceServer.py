@@ -12,7 +12,7 @@ from opentelemetry.exporter.jaeger.thrift import JaegerExporter
 
 from src.inference.processor import FastProcessor, LargeProcessor
 
-
+import os
 
 from functools import partial
 
@@ -30,7 +30,19 @@ if not hasattr(asyncio , "to_thread"):
 
 
 # ------------------- Logging Setup -------------------
-logger.add("inference.log", rotation="10 MB", backtrace=True, diagnose=True)
+LOG_DIR = os.path.abspath(os.path.dirname(__file__))
+LOG_PATH = os.path.join(LOG_DIR, "inference.log")
+logger.add(
+    LOG_PATH,
+    rotation="10 MB",          # rotate when file > 10MB
+    retention="7 days",        # keep logs for 7 days
+    enqueue=True,              # thread/process safe
+    backtrace=True,
+    diagnose=True,
+    level="INFO",
+)
+print(f"[LOGGER] Writing logs to: {LOG_PATH}")
+
 
 # ------------------- Metrics Setup -------------------
 REQUEST_COUNT = Counter("inference_requests_total", "Total inference requests", ["model"])
@@ -92,10 +104,11 @@ async def infer(request: Request):
         return JSONResponse({"error": str(e)}, status_code=500)
     finally:
         REQUEST_LATENCY.labels(model=model).observe(time.time() - start_time)
+        latency = time.time() - start_time
         logger.info(
-            f"[INFER] model={model} query='{query[:60]}' latency={time.time()-start_time:.2f}s"
-            )
-
+            f"[INFER RESULT] model={model}\nQuery: {query}\nResult:\n{result}\nLatency: {latency:.2f}s"
+        )
+        print(f"[INFER RESULT] model={model} Query: {query:60} Latency: {latency:.2f}s")
     return {"result": result}
 
 

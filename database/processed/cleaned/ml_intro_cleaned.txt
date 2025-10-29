@@ -1,2 +1,0 @@
-machine learning is a field of study in artificial intelligence. geoffrey hinton is a pioneer in deep learning. google developed the tensorflow library in 2015. tensorflow is used for building models.
-

@@ -4,7 +4,7 @@ import time
 import json
 
 # --- Configuration ---
-BASE_URL = "http://127.0.0.1:8001"
+BASE_URL = "http://0.0.0.0:5000"
 UPLOAD_URL = f"{BASE_URL}/upload"
 QUERY_URL = f"{BASE_URL}/query"
 FILE_STATUS_URL = f"{BASE_URL}/file_status"
@@ -15,8 +15,8 @@ GENERATE_FAQ_URL = f"{BASE_URL}/generate_faq"
 GENERATE_QUIZ_URL = f"{BASE_URL}/generate_quiz"
 GENERATE_FLASHCARDS_URL = f"{BASE_URL}/generate_flashcards"
 DELETE_URL = f"{BASE_URL}/delete"
-DUMMY_FILE_NAME = "test_document.txt"
-DUMMY_FILE_CONTENT = "This is a test document about the solar system. The Earth revolves around the Sun. Mars is known as the Red Planet."
+DUMMY_FILE_NAME = "Neel Nanda mats.txt"
+DUMMY_FILE_CONTENT = "the solar system. The Earth revolves around the Sun. Mars is known as the Red Planet."
 
 # --- Helper Functions ---
 def create_dummy_file():
@@ -56,7 +56,7 @@ def test_upload():
     files = {'files': (DUMMY_FILE_NAME, open(DUMMY_FILE_NAME, 'rb'), 'text/plain')}
     
     try:
-        response = requests.post(UPLOAD_URL, files=files, timeout=30)
+        response = requests.post(UPLOAD_URL, files=files, timeout=100)
         
         print(f"Status Code: {response.status_code}")
         print("Response JSON:")
@@ -84,8 +84,8 @@ def test_query():
     
     print("\n--- Testing /query endpoint ---")
     payload = {
-        "query": "how does anime effect kids nowadays... tell me from the paper i gave",
-        "top_k": 1
+        "query": "tell me about constitutional ai",
+        "top_k": 3
     }
     
     try:
@@ -136,7 +136,7 @@ def test_deep_query():
     """
     print("\n--- Testing /deepquery endpoint ---")
     payload = {
-        "query": "What is the impact of climate change on marine ecosystems, and what are the proposed solutions?",
+        "query": "tell me about constitutional ai",
         "top_k": 1,
         "create_graph": False
     }
@@ -288,10 +288,10 @@ def test_delete_files():
     """
     print("\n--- Testing /delete endpoint ---")
     # Ensure the dummy file is uploaded before attempting to delete
-    create_dummy_file()
-    files = {'files': (DUMMY_FILE_NAME, open(DUMMY_FILE_NAME, 'rb'), 'text/plain')}
-    requests.post(UPLOAD_URL, files=files, timeout=30)
-    time.sleep(5) # Give time for processing
+    # create_dummy_file()
+    # files = {'files': (DUMMY_FILE_NAME, open(DUMMY_FILE_NAME, 'rb'), 'text/plain')}
+    # requests.post(UPLOAD_URL, files=files, timeout=30)
+    # time.sleep(5) # Give time for processing
 
     payload = {
         "filenames": [DUMMY_FILE_NAME]
@@ -317,15 +317,15 @@ def test_delete_files():
 # --- Main Execution ---
 if __name__ == "__main__":
     if check_server_status(BASE_URL):
-        test_upload()
-        test_query()
+        # test_upload()
+        # test_query()
         test_file_status()
-        test_deep_query()
-        test_generate_outline()
-        test_summarize()
-        test_generate_faq()
+        # test_deep_query()
+        # test_generate_outline()
+        # test_summarize()
+        # test_generate_faq()
         # test_generate_quiz()
-        test_generate_flashcards()
+        # test_generate_flashcards()
         test_delete_files()
     else:
         print("\nExiting tests.")

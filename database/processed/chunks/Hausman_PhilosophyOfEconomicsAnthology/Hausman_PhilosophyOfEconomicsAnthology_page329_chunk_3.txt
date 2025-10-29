@@ -1,1 +1,0 @@
-the micro and the macro: no macro state exists unless an appropriate micro state exists. supervenience has been offered both as a
