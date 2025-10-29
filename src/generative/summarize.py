@@ -20,7 +20,7 @@ async def summarize_chunk(chunk: str) -> str:
             return response.json().get("result", "")
         except httpx.RequestError as e:
             return f"Error connecting to inference server: {e}"
-        except htt.HTTPStatusError as e:
+        except httpx.HTTPStatusError as e:
             return f"Error from inference server: {e.response.status_code}"
 
 

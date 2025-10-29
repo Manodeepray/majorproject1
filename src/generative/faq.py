@@ -7,10 +7,10 @@ async def generate_faq_chunk(chunk: str, source: str) -> List[Dict[str, str]]:
     """
     Generates a list of FAQs from a single chunk of text.
     """
-    prompt = f"Please generate a list of potential questions and answers from the following text. Return the output as a JSON list of objects, where each object has a 'question' and 'answer' key.\n\nText:\n{chunk}"
+    prompt = f"Please generate a list of potential questions and answers from the following text. Return the output as a JSON list of objects, where each object has a 'question' and 'answer' key.\n"
     payload = {
         "query": prompt,
-        "context": "",
+        "context": chunk,
         "model": "large"
     }
     async with httpx.AsyncClient(timeout=120.0) as client:

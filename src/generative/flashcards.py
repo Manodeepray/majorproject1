@@ -7,10 +7,10 @@ async def generate_flashcards_chunk(chunk: str, source: str) -> List[Dict[str, s
     """
     Generates a list of flashcards from a single chunk of text.
     """
-    prompt = f"Please identify key term/definition pairs or core concept/explanation pairs from the following text and format them as a JSON list of objects, where each object has a 'front' and 'back' key.\n\nText:\n{chunk}"
+    prompt = f"Please identify key term/definition pairs or core concept/explanation pairs from the following text and format them as a JSON list of objects, where each object has a 'front' and 'back' key."
     payload = {
         "query": prompt,
-        "context": "",
+        "context": chunk,
         "model": "large"
     }
     async with httpx.AsyncClient(timeout=120.0) as client:

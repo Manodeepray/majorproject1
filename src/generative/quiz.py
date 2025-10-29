@@ -7,10 +7,10 @@ async def generate_quiz_chunk(chunk: str, source: str, question_type: str, count
     """
     Generates a list of quiz questions from a single chunk of text.
     """
-    prompt = f"Please generate {count} {question_type} questions from the following text. Return the output as a JSON list of objects, where each object has a 'question', 'options' (for mcq), and 'answer' key.\n\nText:\n{chunk}"
+    prompt = f"Please generate {count} {question_type} questions from the following text. Return the output as a JSON list of objects, where each object has a 'question', 'options' (for mcq), and 'answer' key."
     payload = {
         "query": prompt,
-        "context": "",
+        "context": chunk,
         "model": "large"
     }
     async with httpx.AsyncClient(timeout=120.0) as client:

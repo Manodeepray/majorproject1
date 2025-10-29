@@ -7,10 +7,10 @@ async def generate_outline_chunk(chunk: str) -> str:
     """
     Generates an outline for a single chunk of text.
     """
-    prompt = f"Please create a hierarchical outline of the main topics and sub-topics from the following text:\n\n{chunk}"
+    prompt = f"Please create a hierarchical outline of the main topics and sub-topics from the following text:"
     payload = {
         "query": prompt,
-        "context": "",
+        "context": chunk,
         "model": "large"
     }
     async with httpx.AsyncClient(timeout=120.0) as client:

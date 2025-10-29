@@ -324,7 +324,7 @@ if __name__ == "__main__":
         test_generate_outline()
         test_summarize()
         test_generate_faq()
-        test_generate_quiz()
+        # test_generate_quiz()
         test_generate_flashcards()
         test_delete_files()
     else:

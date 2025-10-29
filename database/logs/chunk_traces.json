@@ -20170,17 +20170,5 @@
         "timestamp": "2025-10-27T20:37:20.000153",
         "hash": "a38838448dca526b779430403cdf5c6f8dc0ab0153689e2f8c9c31b8c8d9feba",
         "vectorized": true
-    },
-    "test_document.txt_chunk_1": {
-        "file_name": "test_document.txt",
-        "chunk_id": 1,
-        "source": "database/data_warehouse/test_document.txt",
-        "chunk_file": "test_document_page0_chunk_1.txt",
-        "chunk_path": "database/processed/chunks/test_document/test_document_page0_chunk_1.txt",
-        "page_number": null,
-        "chunk_length": 22,
-        "timestamp": "2025-10-29T15:13:20.125422",
-        "hash": "da4b06d7964125bd599392656313de8eef0b77c7fd58d8a620407db47a0915be",
-        "vectorized": true
     }
 }
