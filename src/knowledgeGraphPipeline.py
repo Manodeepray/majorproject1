@@ -10,7 +10,7 @@ def createDatabaseKnowledgeGraph():
     print("building and saving kg...")
     build_and_save_graph()
 
-def create_knowledge_graph_from_context(text: str):
+def create_knowledge_graph_from_context(text: str, output_path: str = "assets/context_kg.html"):
     """
     Creates a knowledge graph from the given text context and saves it as an HTML file.
     """
@@ -18,10 +18,12 @@ def create_knowledge_graph_from_context(text: str):
     entities, _, relations = extract_entities_relations_from_context(text)
     
     if entities and relations:
-        print("Building and saving knowledge graph from context...")
-        build_and_save_graph_from_data(entities, relations, "assets/context_kg.html")
+        print(f"Building and saving knowledge graph to {output_path}...")
+        build_and_save_graph_from_data(entities, relations, output_path)
+        return output_path
     else:
         print("No entities or relations extracted from the context. Skipping graph creation.")
+        return None
 
 
 if __name__ == "__main__":

@@ -23152,29 +23152,6 @@
         "num_chunks": 231,
         "num_processed_chunks": 231
     },
-    "test_document.txt": {
-        "status": "processed",
-        "timestamp": "2025-10-27T19:52:16.769861",
-        "hash": "da4b06d7964125bd599392656313de8eef0b77c7fd58d8a620407db47a0915be",
-        "chunks": [
-            {
-                "chunk_id": 1,
-                "file_name": "test_document.txt",
-                "source": "database/data_warehouse/test_document.txt",
-                "chunk_file": "test_document_page0_chunk_1.txt",
-                "chunk_path": "database/processed/chunks/test_document/test_document_page0_chunk_1.txt",
-                "page_number": null,
-                "chunk_length": 22,
-                "hash": "da4b06d7964125bd599392656313de8eef0b77c7fd58d8a620407db47a0915be",
-                "timestamp": "2025-10-27T19:52:16.769861",
-                "processed": true,
-                "er_extraction": false,
-                "vectorized": false
-            }
-        ],
-        "num_chunks": 1,
-        "num_processed_chunks": 1
-    },
     "children-12-01078.pdf": {
         "status": "processed",
         "timestamp": "2025-10-27T20:37:20.000153",
@@ -23645,5 +23622,28 @@
         ],
         "num_chunks": 33,
         "num_processed_chunks": 33
+    },
+    "test_document.txt": {
+        "status": "processed",
+        "timestamp": "2025-10-29T15:13:20.125422",
+        "hash": "da4b06d7964125bd599392656313de8eef0b77c7fd58d8a620407db47a0915be",
+        "chunks": [
+            {
+                "chunk_id": 1,
+                "file_name": "test_document.txt",
+                "source": "database/data_warehouse/test_document.txt",
+                "chunk_file": "test_document_page0_chunk_1.txt",
+                "chunk_path": "database/processed/chunks/test_document/test_document_page0_chunk_1.txt",
+                "page_number": null,
+                "chunk_length": 22,
+                "hash": "da4b06d7964125bd599392656313de8eef0b77c7fd58d8a620407db47a0915be",
+                "timestamp": "2025-10-29T15:13:20.125422",
+                "processed": true,
+                "er_extraction": false,
+                "vectorized": false
+            }
+        ],
+        "num_chunks": 1,
+        "num_processed_chunks": 1
     }
 }

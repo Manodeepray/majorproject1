@@ -1,3 +1,5 @@
+import uuid
+import time
 from typing import List, Dict, Any
 import httpx
 from pathlib import Path
@@ -20,7 +22,7 @@ class MultiTurnAgent:
         self.chunk_traces = chunk_traces
         self.store_type = store_type
 
-    async def run(self, query: str, top_k: int = 5) -> Dict[str, Any]:
+    async def run(self, query: str, top_k: int = 5, create_graph: bool = False) -> Dict[str, Any]:
         """
         Runs the multi-turn query process.
         """
@@ -72,7 +74,12 @@ class MultiTurnAgent:
         if not intermediate_summaries:
              # Fallback if no summaries could be generated
             if not accumulated_context_chunks:
-                return {"answer": "Could not find relevant information to answer the query.", "context": []}
+                return {
+                    "answer": "Could not find relevant information to answer the query.",
+                    "context": [],
+                    "sub_queries": sub_queries,
+                    "graph_location": None
+                }
             
             final_context_str = "\n\n---\n\n".join(accumulated_context_chunks)
             final_prompt = f"Please provide a comprehensive answer to the user's query based on the following context.\n\nUser's Query: '{query}'\n\nContext:\n{final_context_str}"
@@ -103,11 +110,15 @@ class MultiTurnAgent:
             final_answer = response.json().get("result", "No answer could be generated.")
 
         # 4. Create a knowledge graph from the accumulated context
-        if accumulated_context_chunks:
+        graph_location = None
+        if create_graph and accumulated_context_chunks:
             full_context = "\n\n".join(accumulated_context_chunks)
-            create_knowledge_graph_from_context(full_context)
+            graph_filename = f"assets/context_kg_{int(time.time())}_{uuid.uuid4().hex[:8]}.html"
+            graph_location = create_knowledge_graph_from_context(full_context, output_path=graph_filename)
 
         return {
             "answer": final_answer,
-            "context": accumulated_context_chunks # returning all retrieved chunks
+            "context": accumulated_context_chunks,
+            "sub_queries": sub_queries,
+            "graph_location": graph_location
         }

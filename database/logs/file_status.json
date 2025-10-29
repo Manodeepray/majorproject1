@@ -47,7 +47,8 @@
     "test_document.txt": {
         "status": "processed",
         "timestamp": "2025-10-27T19:46:29.293198",
-        "hash": "da4b06d7964125bd599392656313de8eef0b77c7fd58d8a620407db47a0915be"
+        "hash": "da4b06d7964125bd599392656313de8eef0b77c7fd58d8a620407db47a0915be",
+        "deleted": true
     },
     "children-12-01078.pdf": {
         "status": "processed",
