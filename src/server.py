@@ -49,6 +49,14 @@ A comprehensive API for building and querying a knowledge base from unstructured
     },
 )
 
+@app.get("/health", include_in_schema=False)
+async def health_check():
+    return {"status": "healthy"}
+
+@app.get("/", include_in_schema=False)
+async def redirect_to_docs():
+    return RedirectResponse(url="/docs")
+
 # --- Global Variables ---
 # These will be loaded at startup and reused across requests
 app.state.vector_log = None
@@ -202,7 +210,7 @@ def load_retriever_assets():
     except Exception as e:
         print(f"An unexpected error occurred while loading retriever assets: {e}")
 
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, RedirectResponse
 # --- API Endpoints ---
 @app.get(
     "/file_status",

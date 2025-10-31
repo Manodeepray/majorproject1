@@ -1,11 +1,80 @@
 
-use python >3.10
 
-### RUN
+### TO SETUP 
+
+1. download UV
+Use curl to download the script and execute it with sh:
+
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+If your system doesn't have curl, you can use wget:
+
+```bash
+
+wget -qO- https://astral.sh/uv/install.sh | sh
+
+```
+
+
+2. use python >3.10
+
+```bash
+uv python install 3.10
+```
+
+
+3. create uv virtual environment
+
+```bash
+uv venv
+```
+
+
+4.  install  requirements
+
+```bash
+uv pip install -r requirements.txt
+
+```
+
+
+
+5. install ngrok
+
+```bash
+curl -sSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc \
+  | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null \
+  && echo "deb https://ngrok-agent.s3.amazonaws.com bookworm main" \
+  | sudo tee /etc/apt/sources.list.d/ngrok.list \
+  && sudo apt update \
+  && sudo apt install ngrok
+
+```
+
+
+
+6. add ngrok token
+```bash
+ngrok config add-authtoken "NGROK-TOKEN"
+```
+
+
+
+7. fill .env 
+
+
+
+
+
+### TO RUN
 
 in sequence
+open 3 terminals
 
-terminal1
+1. terminal1
 
 ```bash
 source .env;
@@ -13,118 +82,33 @@ source .venv/bin/activate;
 python3 -m uvicorn src.InferenceServer:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-terminal2
+2. terminal2
 
 ```bash
 source .env;
 source .venv/bin/activate;
-python3 -m uvicorn src.server:app --host 0.0.0.0 --port 8001 --reload
+python3 -m uvicorn src.server:app --host 0.0.0.0 --port 5000 --reload
 ```
 
-terminal3
+3. terminal3
 
 ```bash
-source .env;
-source .venv/bin/activate;
-python3 -m test
+ngrok http 5000
 ```
 
 
 =====================================================================================
 
+### Endpoints
 
+check the `test.py` for payload format
+check the `src/server.py` for the endpoints
+check the `endpoints.md` for all input / output format
 
----done---
-
-
-1. create the inference engine
-
-    FastAPI + asyncio (serving, async requests, streaming).
-
-    Loguru (developer-friendly logs).
-
-    Prometheus + Grafana (metrics).
-
-    OpenTelemetry + Jaeger (tracing).
-
-2. data ingestion
-    pdfs , docs , etc
-    
-
-3. data processing
-
-    3.1 chunking , processing , tracing     
-    
-    3.2 vector embeddings
-         convert to dense vector embeddings
-
-    3.3 add to the vector database
-
-
-    3.4 build  the vector stores
-        then to vector stores-- hnsw + faiss
-
-    
-4. retrieval  
-
-    Hierarchical Navigable Small Worlds (HNSW) search +   Faiss vector similarity search 
-
----done---
-
-
-=========================================================================================
-
-
-
----todo---
-
-
-
-batch inference
-add watchdog for additional files
-make upload endpoint database.py
-fix inference token limit ...or chunk idk
-implement hkg graph creation for display from retrieved data
-retrieved docs to kg
-
-
-5. Knowledge graph
-
-    5.1 extract entity - relations
-        then fast processor for entitiy-relationship recognition 
-        then large processor for etc etc
-    
-    5.2 compile 
-        e and r and e-r --> *.jsons
-
-    5.3 build hkg
-        clean redundant e , r , e-r
-        build hkg/kg
-    
-    5.4 kg per query
-        extract e and r and er from per doc
-        gen kg
-
-6. Prompt engine 
-    re write , breakdown , reranker , feedback loop , editable context 
-
-
-7. track performance
-
-
-8. add safety 
-
-9. prepare evaluation pipeline
-
-10. memory + context engineering
-
-
----todo---
 
 =========================================================================================
 --- plan and implement---
 
-health checks
 
 query -- rerankers , query re write/breakdown  , feedback loops 
  
@@ -132,7 +116,7 @@ performance -- prompt caching , canary rollouts , rollback plans ,ci/cd , cost l
 
 safety -- guard rails , prompt injection & jail break defence 
 
-evaluation --
+evaluation -- eval the correctness
 
 memory -- vector + grapg + episodic , pruning... memory policy ,  context chaining ,memory pruning
 
