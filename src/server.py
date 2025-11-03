@@ -4,6 +4,8 @@ from pathlib import Path
 from typing import List, Optional
 import httpx
 from fastapi import FastAPI, UploadFile, File, BackgroundTasks, HTTPException, Body
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse, RedirectResponse
 from pydantic import BaseModel, Field
 import uvicorn
 import json
@@ -47,6 +49,15 @@ A comprehensive API for building and querying a knowledge base from unstructured
         "name": "Apache 2.0",
         "url": "https://www.apache.org/licenses/LICENSE-2.0.html",
     },
+)
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # In production, replace with specific origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 @app.get("/health", include_in_schema=False)
@@ -210,7 +221,6 @@ def load_retriever_assets():
     except Exception as e:
         print(f"An unexpected error occurred while loading retriever assets: {e}")
 
-from fastapi.responses import FileResponse, RedirectResponse
 # --- API Endpoints ---
 @app.get(
     "/file_status",
