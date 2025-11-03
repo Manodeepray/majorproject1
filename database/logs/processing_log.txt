@@ -1,8 +1,12 @@
-[2025-10-29T22:43:27.288385] 
+[2025-11-03T10:49:42.219964] 
+[92m[SUCCESS][0m Processed and moved Harshit COA.pdf to data warehouse.
+[2025-11-03T10:49:42.970360] 
+[92m[SUCCESS][0m Processed and moved emergent misalignment.pdf to data warehouse.
+[2025-11-03T10:49:44.551187] 
 [92m[SUCCESS][0m Processed and moved 2212.08073v1.pdf to data warehouse.
-[2025-10-29T22:43:31.167146] 
+[2025-11-03T10:49:48.585485] 
 [92m[SUCCESS][0m Processed and moved 2502.15861v1.pdf to data warehouse.
-[2025-10-29T22:43:32.375793] 
+[2025-11-03T10:49:49.135154] 
+[92m[SUCCESS][0m Processed and moved bbi-atq-nov1.pdf to data warehouse.
+[2025-11-03T10:49:50.468204] 
 [92m[SUCCESS][0m Processed and moved 2310.13798v1.pdf to data warehouse.
-[2025-10-29T23:08:21.120334] 
-[92m[SUCCESS][0m Processed and moved Neel Nanda mats.txt to data warehouse.
