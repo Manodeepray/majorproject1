@@ -3934,5 +3934,113 @@
         "timestamp": "2025-10-29T22:35:57.352339",
         "hash": "c7032c9efe26a2999efd333b9a99995d327d8e4e75705b8d715e1fb6dda854e5",
         "vectorized": true
+    },
+    "bbi-atq-nov1.pdf_chunk_1": {
+        "file_name": "bbi-atq-nov1.pdf",
+        "chunk_id": 1,
+        "source": "database/data_warehouse/bbi-atq-nov1.pdf",
+        "chunk_file": "bbi-atq-nov1_page1_chunk_1.txt",
+        "chunk_path": "database/processed/chunks/bbi-atq-nov1/bbi-atq-nov1_page1_chunk_1.txt",
+        "page_number": 1,
+        "chunk_length": 258,
+        "timestamp": "2025-11-03T08:21:29.109376",
+        "hash": "a2e4a2bcdbea9798e56758d468f800c60e382aedec3d214773e0cd54478fca9f",
+        "vectorized": true
+    },
+    "bbi-atq-nov1.pdf_chunk_2": {
+        "file_name": "bbi-atq-nov1.pdf",
+        "chunk_id": 2,
+        "source": "database/data_warehouse/bbi-atq-nov1.pdf",
+        "chunk_file": "bbi-atq-nov1_page1_chunk_2.txt",
+        "chunk_path": "database/processed/chunks/bbi-atq-nov1/bbi-atq-nov1_page1_chunk_2.txt",
+        "page_number": 1,
+        "chunk_length": 28,
+        "timestamp": "2025-11-03T08:21:29.109376",
+        "hash": "a2e4a2bcdbea9798e56758d468f800c60e382aedec3d214773e0cd54478fca9f",
+        "vectorized": true
+    },
+    "bbi-atq-nov1.pdf_chunk_3": {
+        "file_name": "bbi-atq-nov1.pdf",
+        "chunk_id": 3,
+        "source": "database/data_warehouse/bbi-atq-nov1.pdf",
+        "chunk_file": "bbi-atq-nov1_page2_chunk_1.txt",
+        "chunk_path": "database/processed/chunks/bbi-atq-nov1/bbi-atq-nov1_page2_chunk_1.txt",
+        "page_number": 2,
+        "chunk_length": 258,
+        "timestamp": "2025-11-03T08:21:29.109376",
+        "hash": "a2e4a2bcdbea9798e56758d468f800c60e382aedec3d214773e0cd54478fca9f",
+        "vectorized": true
+    },
+    "bbi-atq-nov1.pdf_chunk_4": {
+        "file_name": "bbi-atq-nov1.pdf",
+        "chunk_id": 4,
+        "source": "database/data_warehouse/bbi-atq-nov1.pdf",
+        "chunk_file": "bbi-atq-nov1_page2_chunk_2.txt",
+        "chunk_path": "database/processed/chunks/bbi-atq-nov1/bbi-atq-nov1_page2_chunk_2.txt",
+        "page_number": 2,
+        "chunk_length": 28,
+        "timestamp": "2025-11-03T08:21:29.109376",
+        "hash": "a2e4a2bcdbea9798e56758d468f800c60e382aedec3d214773e0cd54478fca9f",
+        "vectorized": true
+    },
+    "bbi-atq-nov1.pdf_chunk_5": {
+        "file_name": "bbi-atq-nov1.pdf",
+        "chunk_id": 5,
+        "source": "database/data_warehouse/bbi-atq-nov1.pdf",
+        "chunk_file": "bbi-atq-nov1_page3_chunk_1.txt",
+        "chunk_path": "database/processed/chunks/bbi-atq-nov1/bbi-atq-nov1_page3_chunk_1.txt",
+        "page_number": 3,
+        "chunk_length": 258,
+        "timestamp": "2025-11-03T08:21:29.109376",
+        "hash": "a2e4a2bcdbea9798e56758d468f800c60e382aedec3d214773e0cd54478fca9f",
+        "vectorized": true
+    },
+    "bbi-atq-nov1.pdf_chunk_6": {
+        "file_name": "bbi-atq-nov1.pdf",
+        "chunk_id": 6,
+        "source": "database/data_warehouse/bbi-atq-nov1.pdf",
+        "chunk_file": "bbi-atq-nov1_page3_chunk_2.txt",
+        "chunk_path": "database/processed/chunks/bbi-atq-nov1/bbi-atq-nov1_page3_chunk_2.txt",
+        "page_number": 3,
+        "chunk_length": 28,
+        "timestamp": "2025-11-03T08:21:29.109376",
+        "hash": "a2e4a2bcdbea9798e56758d468f800c60e382aedec3d214773e0cd54478fca9f",
+        "vectorized": true
+    },
+    "Harshit COA.pdf_chunk_1": {
+        "file_name": "Harshit COA.pdf",
+        "chunk_id": 1,
+        "source": "database/data_warehouse/Harshit COA.pdf",
+        "chunk_file": "Harshit COA_page1_chunk_1.txt",
+        "chunk_path": "database/processed/chunks/Harshit COA/Harshit COA_page1_chunk_1.txt",
+        "page_number": 1,
+        "chunk_length": 300,
+        "timestamp": "2025-11-03T09:51:28.946744",
+        "hash": "dcdca5e478eaf39010798201f38681fdac9dbe95d51073d9ed2e1966b519de45",
+        "vectorized": true
+    },
+    "Harshit COA.pdf_chunk_2": {
+        "file_name": "Harshit COA.pdf",
+        "chunk_id": 2,
+        "source": "database/data_warehouse/Harshit COA.pdf",
+        "chunk_file": "Harshit COA_page1_chunk_2.txt",
+        "chunk_path": "database/processed/chunks/Harshit COA/Harshit COA_page1_chunk_2.txt",
+        "page_number": 1,
+        "chunk_length": 300,
+        "timestamp": "2025-11-03T09:51:28.946744",
+        "hash": "dcdca5e478eaf39010798201f38681fdac9dbe95d51073d9ed2e1966b519de45",
+        "vectorized": true
+    },
+    "Harshit COA.pdf_chunk_3": {
+        "file_name": "Harshit COA.pdf",
+        "chunk_id": 3,
+        "source": "database/data_warehouse/Harshit COA.pdf",
+        "chunk_file": "Harshit COA_page1_chunk_3.txt",
+        "chunk_path": "database/processed/chunks/Harshit COA/Harshit COA_page1_chunk_3.txt",
+        "page_number": 1,
+        "chunk_length": 78,
+        "timestamp": "2025-11-03T09:51:28.946744",
+        "hash": "dcdca5e478eaf39010798201f38681fdac9dbe95d51073d9ed2e1966b519de45",
+        "vectorized": true
     }
 }
