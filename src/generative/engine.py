@@ -130,7 +130,7 @@ async def run_outline_generation(filenames: List[str], combine: bool) -> Dict:
         if combine:
             all_outlines.extend(chunk_outlines)
         else:
-            individual_outlines[filename] = "\n\n".join(chunk_outlines)
+            individual_outlines[filename] = "\n\n".join(str(co or "") for co in chunk_outlines) 
 
     if combine:
         combined_outline = await combine_outlines(all_outlines)

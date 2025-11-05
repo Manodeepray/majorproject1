@@ -55,11 +55,11 @@ class MultiTurnAgent:
             
             # 2. Summarize the retrieved context for this sub-query
             context_str = "\n\n---\n\n".join(context_chunks)
-            summary_prompt = f"Based on the following context, provide a concise summary that answers the question: '{sub_query}'.\n\nContext:\n{context_str}"
+            summary_prompt = f"Based on the following context, provide a concise summary that answers the question: '{sub_query}'."
             
             payload = {
                 "query": summary_prompt,
-                "context": "", # Context is in the prompt
+                "context": context_str, # Context is in the prompt
                 "model": "large"
             }
 

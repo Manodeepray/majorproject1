@@ -28,5 +28,36 @@
         "status": "processed",
         "timestamp": "2025-11-03T10:49:49.137474",
         "hash": "c7032c9efe26a2999efd333b9a99995d327d8e4e75705b8d715e1fb6dda854e5"
+    },
+    "Food_Factsheets.pdf": {
+        "status": "processed",
+        "timestamp": "2025-11-05T07:24:51.034956",
+        "hash": "dce236be8042f448259983bf68c7715b01dc86b23157475678ed59277e8ba042"
+    },
+    "philosophy-1.pdf": {
+        "status": "processed",
+        "timestamp": "2025-11-05T07:24:51.422028",
+        "hash": "d8fed1e6f280d856819a7385fb5488c95edce6547c7bd34aa54011dfafd26f66"
+    },
+    "cnn1-human-behaviour.pdf": {
+        "status": "processed",
+        "timestamp": "2025-11-05T07:24:51.613272",
+        "hash": "174fdc55a83dfc99c587ed56d633fc0bcf8e062a0fb5618c583a4ea6ac61984f"
+    },
+    "imagenet-cnn.pdf": {
+        "status": "deleted",
+        "timestamp": "2025-11-05T07:24:52.886067",
+        "hash": "90137160c57217953d5f61857e64ca58e85f06e1b13b4f475c918b1b582b9771",
+        "deleted": true
+    },
+    "Mexican-Food-1.pdf": {
+        "status": "processed",
+        "timestamp": "2025-11-05T07:24:53.304400",
+        "hash": "c06a5fb3300a5d049d0586b505f2a3280222f80a332b718bf5d435a382cbceab"
+    },
+    "A_Brief_Introduction_To_AI.pdf": {
+        "status": "processed",
+        "timestamp": "2025-11-05T07:24:53.364632",
+        "hash": "b93e39c4ff06dd58187ae342b147e6658a1815ed67bf0b354ab910cc1a2179c0"
     }
 }

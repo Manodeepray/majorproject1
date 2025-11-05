@@ -113,7 +113,16 @@ class QueryResponse(BaseModel):
             "Chunk 2 text..."
         ]
     )
-
+    filenames:List[str] = Field(
+        ...,
+        description="The list of documents used in the context to generate the answer.",
+        example=[
+            "doc1.txt...",
+            "pdf2.pdf..."
+        ]
+    )
+    
+     
 class DeepQueryResponse(QueryResponse):
     """Response model for the /deepquery endpoint."""
     sub_queries: List[str] = Field(
@@ -372,14 +381,18 @@ async def query_knowledge_base(
         if not retrieved_data:
             raise HTTPException(status_code=404, detail="No relevant documents found for your query.")
 
+
+        # print(retrieved_data)
+
         context_chunks = [item['chunk_text'] for item in retrieved_data]
+        filenames = [item["file_name"] for item in retrieved_data]
         final_context_str = "\n\n---\n\n".join(context_chunks)
         
-        final_prompt = f"Please provide a comprehensive answer to the user's query based on the following context.\n\nUser's Query: '{request.query}'\n\nContext:\n{final_context_str}"
+        final_prompt = f"Please provide a comprehensive answer to the user's query based on the following context.\n\nUser's Query: '{request.query}'"
 
         payload = {
             "query": final_prompt,
-            "context": "",
+            "context": final_context_str,
             "model": "large"
         }
 
@@ -387,8 +400,12 @@ async def query_knowledge_base(
             response = await client.post(INFERENCE_SERVER_URL, json=payload)
             response.raise_for_status()
             final_answer = response.json().get("result", "No answer could be generated.")
+        
+        
+        if not isinstance(final_answer, str):
+            final_answer = str(final_answer)
 
-        return {"answer": final_answer, "context": context_chunks}
+        return {"answer": final_answer, "context": context_chunks , 'filenames' : filenames}
 
     except httpx.RequestError as e:
         raise HTTPException(status_code=500, detail=f"Could not connect to inference server: {e}")
