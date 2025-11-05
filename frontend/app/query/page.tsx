@@ -16,6 +16,8 @@ export default function QueryPage() {
   const [error, setError] = useState<string | null>(null);
   const [simpleResponse, setSimpleResponse] = useState<QueryResponse | null>(null);
   const [deepResponse, setDeepResponse] = useState<DeepQueryResponse | null>(null);
+  const [showGraph, setShowGraph] = useState(false);
+
 
   const handleSimpleQuery = async () => {
     if (!queryText.trim()) {
@@ -69,10 +71,10 @@ export default function QueryPage() {
   const renderGraph = (graphLocation: string | null) => {
     if (!graphLocation) return null;
 
-    // If graph_location is a relative path, construct full URL
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000';
     const graphUrl = graphLocation.startsWith('http')
       ? graphLocation
-      : `${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000'}${graphLocation}`;
+      : `${baseUrl}/graph/${graphLocation}`;
 
     return (
       <div className="mt-6">
@@ -88,6 +90,7 @@ export default function QueryPage() {
       </div>
     );
   };
+
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -270,7 +273,18 @@ export default function QueryPage() {
                 </div>
               )}
 
-              {renderGraph(deepResponse.graph_location)}
+              {deepResponse.graph_location && (
+                <div className="border-t border-gray-800 pt-6">
+                  <button
+                    onClick={() => setShowGraph(!showGraph)}
+                    className="bg-emerald-600 text-white py-2 px-4 rounded-lg hover:bg-emerald-700 transition-colors"
+                  >
+                    {showGraph ? "Hide Knowledge Graph" : "Show Knowledge Graph"}
+                  </button>
+
+                  {showGraph && renderGraph(deepResponse.graph_location)}
+                </div>
+              )}
             </div>
           )}
         </div>

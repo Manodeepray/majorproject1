@@ -14,7 +14,7 @@ from .flashcards import generate_flashcards_chunk
 project_root = Path(__file__).parent.parent.parent
 LOGS_DIR = project_root / "database" / "logs"
 DATA_WAREHOUSE_DIR = project_root / "database" / "data_warehouse"
-CHUNK_SIZE = 2000  # characters
+CHUNK_SIZE = 10000  # characters
 
 def load_json(path):
     if path.exists():
@@ -75,21 +75,23 @@ async def run_summarization(filenames: List[str]) -> List[Dict[str, str]]:
     """
     file_status_path = LOGS_DIR / "file_status.json"
     file_status = load_json(file_status_path)
-    
     results = []
+    individual_summaries = {}
 
     for filename in filenames:
+        print(file_status[filename])
         if filename not in file_status or file_status[filename].get('status') != 'processed':
-            results.append({"filename": filename, "summary": "File not found or not processed."})
+            
+            individual_summaries[filename] = "File not found or not processed."
             continue
 
         content = get_document_content(filename)
         if not content:
-            results.append({"filename": filename, "summary": "Could not read file content."})
+            individual_summaries[filename] = "Could not read file content."
             continue
 
-        # Break document into chunks
         chunks = [content[i:i + CHUNK_SIZE] for i in range(0, len(content), CHUNK_SIZE)]
+        print(f"[PROCESSING] working on {len(chunks)} chunks")
         
         # Summarize each chunk concurrently
         chunk_summaries = await asyncio.gather(*[summarize_chunk(chunk) for chunk in chunks])

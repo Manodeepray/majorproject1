@@ -28,9 +28,10 @@ async def summarize_final(summaries: List[str]) -> str:
     """
     Creates a final summary from a list of chunk summaries.
     """
+    print(summaries)
     combined_summaries = "\n\n".join(str(s or "") for s in summaries)
 
-    
+    print(f"num summaries:{len(summaries)}")
     prompt = f"Please create a final, coherent summary from the following summaries:"
     payload = {
         "query": prompt,

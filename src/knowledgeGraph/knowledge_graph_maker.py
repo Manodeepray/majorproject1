@@ -120,8 +120,8 @@ def build_and_save_graph_from_data(entities, relations, output_filename="assets/
     """
     Builds a graph from provided entities and relations and saves it to a specific HTML file.
     """
-    output_dir = os.path.dirname(output_filename)
-    os.makedirs(output_dir, exist_ok=True)
+    # output_dir = os.path.dirname(output_filename)
+    # os.makedirs(output_dir, exist_ok=True)
 
     if not entities and not relations:
         print("❌ Error: No entities or relations provided. Cannot build graph.")
