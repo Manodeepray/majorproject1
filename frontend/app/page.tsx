@@ -664,7 +664,11 @@ export default function Dashboard() {
                 >
                   + Add
                 </button>
-                <button className="px-4 py-2 text-sm bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg transition-colors font-medium">
+                <button 
+                  onClick={() => setRefreshKey(prev => prev + 1)}
+                  className="px-4 py-2 text-sm bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg transition-colors font-medium"
+                  title="Refresh to discover new files"
+                >
                   Discover
                 </button>
               </div>
@@ -733,7 +737,10 @@ export default function Dashboard() {
 
         {/* Right Panel - Studio */}
         <div className="w-96 border-l border-gray-800 bg-[#1a1a1a] flex flex-col overflow-hidden">
-          <StudioGrid onToolSelect={handleToolSelect} activeTool={activeTool} />
+          <StudioGrid 
+            onToolSelect={handleToolSelect} 
+            activeTool={activeTool}
+          />
         </div>
       </div>
     </div>
