@@ -51,6 +51,10 @@ class MultiTurnAgent:
                 continue
 
             context_chunks = [item['chunk_text'] for item in retrieved_data]
+            
+            filenames = [item['file_name'] for item in retrieved_data]
+            
+            
             accumulated_context_chunks.extend(context_chunks)
             
             # 2. Summarize the retrieved context for this sub-query
@@ -78,7 +82,8 @@ class MultiTurnAgent:
                     "answer": "Could not find relevant information to answer the query.",
                     "context": [],
                     "sub_queries": sub_queries,
-                    "graph_location": None
+                    "graph_location": None,
+                    "filenames":[]
                 }
             
             final_context_str = "\n\n---\n\n".join(accumulated_context_chunks)
@@ -113,12 +118,14 @@ class MultiTurnAgent:
         graph_location = None
         if create_graph and accumulated_context_chunks:
             full_context = "\n\n".join(accumulated_context_chunks)
-            graph_filename = f"assets/context_kg_{int(time.time())}_{uuid.uuid4().hex[:8]}.html"
+            graph_filename = f"context_kg_{int(time.time())}_{uuid.uuid4().hex[:8]}.html"
             graph_location = create_knowledge_graph_from_context(full_context, output_path=graph_filename)
 
         return {
             "answer": final_answer,
             "context": accumulated_context_chunks,
             "sub_queries": sub_queries,
-            "graph_location": graph_location
+            "graph_location": graph_location,
+            "filenames": filenames,
+            
         }

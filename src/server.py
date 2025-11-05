@@ -413,6 +413,12 @@ async def query_knowledge_base(
         print(f"An unexpected error occurred during query: {e}")
         raise HTTPException(status_code=500, detail="An internal error occurred.")
 
+@app.get("/graph/{graph_location}")
+def get_graph(graph_location: str):
+    if not os.path.exists(graph_location):
+        return {"error": "File not found"}
+    return FileResponse(graph_location, media_type="text/html")
+
 
 @app.post(
     "/deepquery",

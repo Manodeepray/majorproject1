@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { generateFlashcards } from '@/lib/api';
-import type { FlashcardResponse, Flashcard } from '@/types/api';
+import type { FlashcardResponse } from '@/types/api';
 import FileSelector from '@/components/FileSelector';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorAlert from '@/components/ErrorAlert';
@@ -52,14 +52,46 @@ export default function FlashcardsPage() {
     setIsFlipped(false);
   };
 
+  const outerStyle: React.CSSProperties = {
+    perspective: '1000px',
+    WebkitPerspective: '1000px',
+  };
+
+  const rotatorStyle: React.CSSProperties = {
+    width: '100%',
+    height: '100%',
+    position: 'relative',
+    transition: 'transform 0.7s',
+    transformStyle: 'preserve-3d',
+    WebkitTransformStyle: 'preserve-3d',
+    transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+    WebkitTransform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
+  };
+
+  const frontStyle: React.CSSProperties = {
+    position: 'absolute',
+    inset: 0,
+    backfaceVisibility: 'hidden',
+    WebkitBackfaceVisibility: 'hidden',
+    cursor: 'pointer',
+  };
+
+  const backStyle: React.CSSProperties = {
+    position: 'absolute',
+    inset: 0,
+    backfaceVisibility: 'hidden',
+    WebkitBackfaceVisibility: 'hidden',
+    transform: 'rotateY(180deg)',
+    WebkitTransform: 'rotateY(180deg)',
+    cursor: 'pointer',
+  };
+
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <BackButton />
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-white mb-2">Generate Flashcards</h1>
-        <p className="text-gray-400">
-          Create flashcards from your documents for studying
-        </p>
+        <p className="text-gray-400">Create flashcards from your documents for studying</p>
       </div>
 
       {!flashcards ? (
@@ -93,51 +125,30 @@ export default function FlashcardsPage() {
             <h2 className="text-lg font-semibold text-white">
               Card {currentIndex + 1} of {flashcards.flashcards.length}
             </h2>
-            <p className="text-sm text-gray-400">
-              Source: {currentCard?.source}
-            </p>
+            <p className="text-sm text-gray-400">Source: {currentCard?.source}</p>
           </div>
 
-          <div className="relative h-96 perspective-1000">
-            <div
-              className={`relative w-full h-full transform-style-preserve-3d transition-transform duration-500 ${
-                isFlipped ? 'rotate-y-180' : ''
-              }`}
-            >
-              {/* Front of card */}
-              <div
-                className={`absolute inset-0 backface-hidden ${
-                  !isFlipped ? 'rotate-y-0' : 'rotate-y-180'
-                }`}
-              >
-                <div className="bg-gray-800 border-2 border-emerald-500 rounded-lg shadow-lg p-8 h-full flex flex-col justify-center items-center cursor-pointer"
-                  onClick={() => setIsFlipped(true)}
-                >
-                  <div className="text-center">
-                    <p className="text-sm text-gray-400 mb-4">Front</p>
-                    <p className="text-2xl font-medium text-white">
-                      {currentCard?.front}
-                    </p>
-                  </div>
+          {/* Flip container */}
+          <div className="relative h-96" style={outerStyle}>
+            <div style={rotatorStyle}>
+              {/* Front */}
+              <div style={frontStyle} onClick={() => setIsFlipped(true)}>
+                <div className="bg-gray-800 border-2 border-emerald-500 rounded-lg shadow-lg p-8 w-full h-full flex flex-col justify-center items-center">
+                  <p className="text-sm text-gray-400 mb-4">Front</p>
+                  <p className="text-2xl font-medium text-white text-center">
+                    {currentCard?.front ?? '(no front text)'}
+                  </p>
                   <p className="text-xs text-gray-500 mt-8">Click to flip</p>
                 </div>
               </div>
 
-              {/* Back of card */}
-              <div
-                className={`absolute inset-0 backface-hidden ${
-                  isFlipped ? 'rotate-y-0' : 'rotate-y-180'
-                }`}
-              >
-                <div className="bg-emerald-900/30 border-2 border-emerald-500 rounded-lg shadow-lg p-8 h-full flex flex-col justify-center items-center cursor-pointer"
-                  onClick={() => setIsFlipped(false)}
-                >
-                  <div className="text-center">
-                    <p className="text-sm text-emerald-400 mb-4">Back</p>
-                    <p className="text-2xl font-medium text-white">
-                      {currentCard?.back}
-                    </p>
-                  </div>
+              {/* Back */}
+              <div style={backStyle} onClick={() => setIsFlipped(false)}>
+                <div className="bg-emerald-900/30 border-2 border-emerald-500 rounded-lg shadow-lg p-8 w-full h-full flex flex-col justify-center items-center">
+                  <p className="text-sm text-emerald-400 mb-4">Back</p>
+                  <p className="text-2xl font-medium text-white text-center">
+                    {currentCard?.back ?? '(no back text)'}
+                  </p>
                   <p className="text-xs text-emerald-500 mt-8">Click to flip</p>
                 </div>
               </div>
@@ -182,4 +193,3 @@ export default function FlashcardsPage() {
     </div>
   );
 }
-
