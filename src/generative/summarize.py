@@ -7,10 +7,10 @@ async def summarize_chunk(chunk: str) -> str:
     """
     Summarizes a single chunk of text using the inference server.
     """
-    prompt = f"Please summarize the following text:\n\n{chunk}"
+    prompt = f"Please summarize the following text:"
     payload = {
         "query": prompt,
-        "context": "",
+        "context": chunk,
         "model": "large"
     }
     async with httpx.AsyncClient(timeout=120.0) as client:
@@ -28,11 +28,13 @@ async def summarize_final(summaries: List[str]) -> str:
     """
     Creates a final summary from a list of chunk summaries.
     """
-    combined_summaries = "\n\n".join(summaries)
-    prompt = f"Please create a final, coherent summary from the following summaries:\n\n{combined_summaries}"
+    combined_summaries = "\n\n".join(str(s or "") for s in summaries)
+
+    
+    prompt = f"Please create a final, coherent summary from the following summaries:"
     payload = {
         "query": prompt,
-        "context": "",
+        "context": combined_summaries,
         "model": "large"
     }
     async with httpx.AsyncClient(timeout=120.0) as client:

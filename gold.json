@@ -1,0 +1,104 @@
+{
+  "query_tests": [
+    {
+      "query": "What is the basic definition of Artificial Intelligence provided in the 'A_Brief_Introduction_To_AI.pdf'?",
+      "expected_keywords": ["computing concept", "think and solve", "complex problems", "human intelligence", "learn from mistakes", "self-correcting"],
+      "expected_filenames": ["A_Brief_Introduction_To_AI.pdf"]
+    },
+    {
+      "query": "Explain the difference between Supervised, Unsupervised, and Reinforcement Learning.",
+      "expected_keywords": ["supervised learning", "labelled data", "unsupervised learning", "unlabelled data", "patterns", "reinforcement learning", "feedback dependent"],
+      "expected_filenames": ["A_Brief_Introduction_To_AI.pdf"]
+    },
+    {
+      "query": "What are the primary functions of carbohydrates, proteins, and fats as described in the 'Food Factsheets'?",
+      "expected_keywords": ["carbohydrates", "primary source of energy", "fats and oils", "concentrated forms of energy", "absorption of vitamins", "protein", "body-building", "repair functions"],
+      "expected_filenames": ["Food_Factsheets.pdf"]
+    },
+    {
+      "query": "What is the difference between free sugars and intrinsic sugars?",
+      "expected_keywords": ["free sugars", "added to foods", "syrups", "fruit juices", "intrinsic sugars", "embedded in the cells", "whole fruits", "digested more slowly"],
+      "expected_filenames": ["Food_Factsheets.pdf"]
+    },
+    {
+      "query": "What are trans fats and why are they harmful?",
+      "expected_keywords": ["solidified oil", "partial hydrogenation", "industrially produced", "increases risk of heart disease", "stroke", "bad cholesterol", "clogs up the arteries"],
+      "expected_filenames": ["Food_Factsheets.pdf"]
+    },
+    {
+      "query": "What multimodal approach does the 'Human Behaviour Analysis' paper propose for emotion recognition?",
+      "expected_keywords": ["combining", "facial expression analysis", "electroencephalography (EEG) data", "deep learning", "complementary information", "fusion models"],
+      "expected_filenames": ["cnn1-human-behaviour.pdf"]
+    },
+    {
+      "query": "Compare the architecture of Convolutional Neural Networks (CNNs) and Recurrent Neural Networks (RNNs) based on the table in 'cnn1-human-behaviour.pdf'.",
+      "expected_keywords": ["CNN", "filters and pooling", "image data", "spatial data", "RNN", "feeds result back", "sequence data", "temporal/sequential data"],
+      "expected_filenames": ["cnn1-human-behaviour.pdf"]
+    },
+    {
+      "query": "How does the 'philosophy-1.pdf' paper argue that classical metaphysics was used to justify social hierarchies?",
+      "expected_keywords": ["metaphysical concepts", "justification", "social hierarchies", "conceptual circles", "legitimation", "natural", "unchangeable", "subordination"],
+      "expected_filenames": ["philosophy-1.pdf"]
+    },
+    {
+      "query": "How does the philosophy paper use Aristotle as an example of justifying hierarchy?",
+      "expected_keywords": ["Aristotle", "slavery", "subordination of women", "metaphysical principles", "actuality over potentiality", "thought over matter", "natural function"],
+      "expected_filenames": ["philosophy-1.pdf"]
+    },
+    {
+      "query": "How does Spinoza's philosophy represent a shift from classical metaphysical thought according to the document?",
+      "expected_keywords": ["Spinoza", "exposes political interests", "God and nature are synonymous", "divine indifference", "human power"],
+      "expected_filenames": ["philosophy-1.pdf"]
+    },
+    {
+      "query": "What is the key trend in the Mexican food market, according to 'Mexican-Food-1.pdf'?",
+      "expected_keywords": ["authentic Mexican food", "preserving regional authenticity", "cultural integrity", "culinary trends", "upscale independents", "restaurants and retail"],
+      "expected_filenames": ["Mexican-Food-1.pdf"]
+    },
+    {
+      "query": "What is the difference between 'authentic' Mexican food and 'Tex-Mex'?",
+      "expected_keywords": ["authentic Mexican food", "varies by region", "indigenous inhabitants", "Tex-Mex", "combines with cuisine", "southwest United States", "Cal-Mex"],
+      "expected_filenames": ["Mexican-Food-1.pdf"]
+    },
+    {
+      "query": "What was the key achievement of the 'ImageNet Classification' (AlexNet) paper?",
+      "expected_keywords": ["large deep convolutional neural network", "ImageNet LSVRC-2010", "1.2 million high-resolution images", "top-1 and top-5 error rates", "state-of-the-art"],
+      "expected_filenames": ["imagenet-cnn.pdf"]
+    },
+    {
+      "query": "What two main methods did the AlexNet paper use to reduce overfitting?",
+      "expected_keywords": ["reducing overfitting", "data augmentation", "dropout", "label-preserving transformations", "image translations", "horizontal reflections", "setting to zero output of hidden neuron"],
+      "expected_filenames": ["imagenet-cnn.pdf"]
+    },
+    {
+      "query": "What novel architectural features did the AlexNet (ImageNet Classification) paper introduce or use effectively?",
+      "expected_keywords": ["ReLU Nonlinearity", "non-saturating neurons", "training on multiple GPUs", "Local Response Normalization", "Overlapping Pooling"],
+      "expected_filenames": ["imagenet-cnn.pdf"]
+    },
+    {
+      "query": "What are some of the main components of a healthy diet according to the 'Food Factsheets'?",
+      "expected_keywords": ["fruits and vegetables", "whole grains", "variety of protein", "drink plenty of water", "limit consumption of fried foods", "observe food safety"],
+      "expected_filenames": ["Food_Factsheets.pdf"]
+    },
+    {
+      "query": "What are the concerns about AI mentioned in the 'A_Brief_Introduction_To_AI.pdf'?",
+      "expected_keywords": ["fear of losing jobs", "automation", "job losses", "opinionated and biased", "automatization of weapons", "super-intelligent entity"],
+      "expected_filenames": ["A_Brief_Introduction_To_AI.pdf"]
+    },
+    {
+      "query": "Describe the overall architecture of the CNN in the 'ImageNet Classification' paper.",
+      "expected_keywords": ["eight learned layers", "five convolutional", "three fully-connected", "max-pooling layers", "1000-way softmax", "ReLU nonlinearity"],
+      "expected_filenames": ["imagenet-cnn.pdf"]
+    },
+    {
+      "query": "How do CNNs and AI apply to both facial recognition and general image classification?",
+      "expected_keywords": ["CNN", "convolutional neural network", "image classification", "facial expression analysis", "emotion detection", "object recognition", "ImageNet"],
+      "expected_filenames": ["cnn1-human-behaviour.pdf", "imagenet-cnn.pdf"]
+    },
+    {
+      "query": "What is the demographic and economic profile of the Hispanic market in the US, according to the 'Mexican Food' article?",
+      "expected_keywords": ["Hispanics", "biggest minority group", "43 million people", "median household income", "lower income", "bigger households", "fast food"],
+      "expected_filenames": ["Mexican-Food-1.pdf"]
+    }
+  ]
+}
