@@ -119,7 +119,11 @@ class MultiTurnAgent:
         if create_graph and accumulated_context_chunks:
             full_context = "\n\n".join(accumulated_context_chunks)
             graph_filename = f"context_kg_{int(time.time())}_{uuid.uuid4().hex[:8]}.html"
+            # Return path relative to frontend API call (will be served via /graph/ endpoint)
             graph_location = create_knowledge_graph_from_context(full_context, output_path=graph_filename)
+            if graph_location:
+                # Prepend /graph/ for the API endpoint
+                graph_location = f"/graph/{graph_location}"
 
         return {
             "answer": final_answer,

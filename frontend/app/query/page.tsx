@@ -74,17 +74,18 @@ export default function QueryPage() {
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000';
     const graphUrl = graphLocation.startsWith('http')
       ? graphLocation
-      : `${baseUrl}/graph/${graphLocation}`;
+      : `${baseUrl}${graphLocation}`;
 
     return (
       <div className="mt-6">
         <h3 className="text-lg font-semibold text-white mb-2">Knowledge Graph</h3>
-        <div className="border border-gray-800 rounded-lg overflow-hidden">
+        <div className="border border-gray-800 rounded-lg overflow-hidden bg-white">
           <iframe
             src={graphUrl}
             className="w-full h-96"
             title="Knowledge Graph"
             sandbox="allow-same-origin allow-scripts"
+            onError={(e) => console.error('Graph iframe error:', e)}
           />
         </div>
       </div>

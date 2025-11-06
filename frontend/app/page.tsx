@@ -155,6 +155,9 @@ export default function Dashboard() {
     }
 
     if (activeTool === 'query') {
+      const processedCount = Object.values(fileStatus).filter(item => item.status === 'processed').length;
+      const totalCount = Object.keys(fileStatus).length;
+      
       return (
         <div className="p-6 space-y-4">
           <div className="flex items-center justify-between mb-4">
@@ -166,6 +169,32 @@ export default function Dashboard() {
               <FiX className="w-5 h-5" />
             </button>
           </div>
+          
+          {processedCount > 0 && (
+            <div className="bg-emerald-900/30 border border-emerald-700 rounded-lg p-3 mb-4">
+              <p className="text-sm text-emerald-300">
+                📚 Searching across <span className="font-semibold">{processedCount}</span> processed document{processedCount !== 1 ? 's' : ''} 
+                {totalCount > processedCount && (
+                  <span className="text-emerald-400/70"> ({totalCount - processedCount} still processing)</span>
+                )}
+              </p>
+            </div>
+          )}
+
+          {queryTab === 'deep' && createGraph && (
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-white mb-2">
+                Select Sources for Knowledge Graph
+              </label>
+              <FileSelector
+                selectedFiles={selectedFiles}
+                onSelectionChange={setSelectedFiles}
+              />
+              <p className="text-xs text-gray-400 mt-2">
+                💡 Choose specific documents to build the knowledge graph from
+              </p>
+            </div>
+          )}
           
           <div className="flex gap-2 mb-4">
             <button
@@ -312,13 +341,27 @@ export default function Dashboard() {
             )}
             {deepResponse.graph_location && (
               <div>
-                <h3 className="text-lg font-semibold text-white mb-2">Knowledge Graph</h3>
-                <div className="border border-gray-700 rounded-lg overflow-hidden">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-lg font-semibold text-white">Knowledge Graph</h3>
+                  <button
+                    onClick={() => window.open(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000'}${deepResponse.graph_location}`, '_blank')}
+                    className="flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg transition-colors"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    Open in New Tab
+                  </button>
+                </div>
+                <div className="border border-gray-700 rounded-lg overflow-hidden bg-white">
                   <iframe
                     src={`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000'}${deepResponse.graph_location}`}
                     title="Knowledge Graph"
                     className="w-full"
                     style={{ height: '600px' }}
+                    sandbox="allow-scripts allow-same-origin"
+                    onError={(e) => console.error('Graph iframe error:', e)}
+                    onLoad={() => console.log('Graph iframe loaded successfully')}
                   />
                 </div>
               </div>
@@ -574,19 +617,14 @@ export default function Dashboard() {
 
           <div className="relative h-96 perspective-1000">
             <div
-              className={`relative w-full h-full transform-style-preserve-3d transition-transform duration-500 ${
-                isFlipped ? 'rotate-y-180' : ''
+              className={`relative w-full h-full transform-style-preserve-3d transition-transform duration-500 cursor-pointer ${
+                isFlipped ? 'rotate-y-180' : 'rotate-y-0'
               }`}
+              onClick={() => setIsFlipped(!isFlipped)}
             >
-              <div
-                className={`absolute inset-0 backface-hidden ${
-                  !isFlipped ? 'rotate-y-0' : 'rotate-y-180'
-                }`}
-              >
-                <div
-                  className="bg-gray-800 border-2 border-emerald-500 rounded-lg shadow-lg p-8 h-full flex flex-col justify-center items-center cursor-pointer"
-                  onClick={() => setIsFlipped(true)}
-                >
+              {/* Front of card */}
+              <div className="absolute inset-0 backface-hidden rotate-y-0">
+                <div className="bg-gray-800 border-2 border-emerald-500 rounded-lg shadow-lg p-8 h-full flex flex-col justify-center items-center">
                   <div className="text-center">
                     <p className="text-sm text-gray-400 mb-4">Front</p>
                     <p className="text-2xl font-medium text-white">{currentCard?.front}</p>
@@ -595,20 +633,14 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <div
-                className={`absolute inset-0 backface-hidden ${
-                  isFlipped ? 'rotate-y-0' : 'rotate-y-180'
-                }`}
-              >
-                <div
-                  className="bg-emerald-900/30 border-2 border-emerald-500 rounded-lg shadow-lg p-8 h-full flex flex-col justify-center items-center cursor-pointer"
-                  onClick={() => setIsFlipped(false)}
-                >
+              {/* Back of card */}
+              <div className="absolute inset-0 backface-hidden rotate-y-180">
+                <div className="bg-emerald-900/30 border-2 border-emerald-500 rounded-lg shadow-lg p-8 h-full flex flex-col justify-center items-center">
                   <div className="text-center">
                     <p className="text-sm text-emerald-400 mb-4">Back</p>
                     <p className="text-2xl font-medium text-white">{currentCard?.back}</p>
                   </div>
-                  <p className="text-xs text-emerald-500 mt-8">Click to flip</p>
+                  <p className="text-xs text-emerald-500 mt-8">Click to flip back</p>
                 </div>
               </div>
             </div>
