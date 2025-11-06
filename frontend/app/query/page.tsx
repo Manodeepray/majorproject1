@@ -74,7 +74,7 @@ export default function QueryPage() {
     const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5000';
     const graphUrl = graphLocation.startsWith('http')
       ? graphLocation
-      : `${baseUrl}${graphLocation}`;
+      : `${baseUrl}/graph/${graphLocation}`;
 
     return (
       <div className="mt-6">
