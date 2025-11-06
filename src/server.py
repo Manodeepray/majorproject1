@@ -413,10 +413,22 @@ async def query_knowledge_base(
         print(f"An unexpected error occurred during query: {e}")
         raise HTTPException(status_code=500, detail="An internal error occurred.")
 
-@app.get("/graph/{graph_location}")
+@app.get("/graph/{graph_location:path}")
 def get_graph(graph_location: str):
+    """
+    Serves the generated knowledge graph HTML file.
+    The graph_location should be a full path to the HTML file.
+    """
+    print(f"Requesting graph at: {graph_location}")
+    
+    # If it's a relative path, make it absolute
+    if not graph_location.startswith('/'):
+        graph_location = str(project_root / graph_location)
+    
     if not os.path.exists(graph_location):
-        return {"error": "File not found"}
+        print(f"Graph file not found: {graph_location}")
+        raise HTTPException(status_code=404, detail=f"Graph file not found: {graph_location}")
+    
     return FileResponse(graph_location, media_type="text/html")
 
 
